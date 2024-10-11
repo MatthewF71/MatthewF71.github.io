@@ -3,17 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pong Game</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Event Ticket Purchase</title>
+    <script>
+        function calculateAmount(tickets) {
+            let amount = 0;
+            if (tickets <= 0) {
+                return 0;
+            }
+            if (tickets >= 20) {
+                amount = Math.floor(tickets / 10) * 1500 + (tickets % 10) * 85;
+            } else if (tickets >= 11) {
+                amount = 750 + (tickets - 10) * 85;
+            } else if (tickets >= 10) {
+                amount = 750;
+            } else {
+                amount = tickets * 85;
+            }
+            return amount;
+        }
+
+        function handleSubmit() {
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const phone = document.getElementById("phone").value;
+            const tickets = parseInt(document.getElementById("tickets").value);
+            const amount = calculateAmount(tickets);
+
+            if (!name || !email || !phone || !tickets || isNaN(tickets)) {
+                alert("Please fill out all fields and enter a valid number of tickets.");
+                return;
+            }
+
+            // Show the user how much they have to pay
+            alert(`Total amount for ${tickets} tickets is $${amount}`);
+
+            // Prepare data for sending
+            const data = {
+                name: name,
+                email: email,
+                phone: phone,
+                tickets: tickets,
+                amount: amount
+            };
+
+            // Post data to Google Sheets
+            fetch('https://script.google.com/macros/s/AKfycbxiUpc6MW84qLMUKaBWqH5rhS5dkDRuCjImQ2hevPDegvYlWZu4Hzdc2Je4jh0iKUN3/exec', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.result === "success") {
+                    alert("Your order has been saved successfully!");
+                } else {
+                    alert("There was an error saving your order.");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Failed to submit your order.");
+            });
+        }
+    </script>
 </head>
 <body>
-    <canvas id="pongCanvas"></canvas>
-    <div class="controls">
-        <button id="upLeft">⬆️ Left</button>
-        <button id="downLeft">⬇️ Left</button>
-        <button id="upRight">⬆️ Right</button>
-        <button id="downRight">⬇️ Right</button>
-    </div>
-    <script src="game.js"></script>
+    <h1>Buy Event Tickets</h1>
+    <form id="ticketForm" onsubmit="event.preventDefault(); handleSubmit();">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name"><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email"><br><br>
+
+        <label for="phone">Phone Number:</label><br>
+        <input type="tel" id="phone" name="phone"><br><br>
+
+        <label for="tickets">Number of Tickets:</label><br>
+        <input type="number" id="tickets" name="tickets"><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
 </body>
 </html>
