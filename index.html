@@ -19,6 +19,134 @@
             padding-top: 70px;
         }
 
+        /* Login Screen Styles */
+        .login-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-logo {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .login-title {
+            font-size: 1.8rem;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .login-subtitle {
+            color: #718096;
+            font-size: 0.95rem;
+        }
+
+        .role-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .role-option {
+            padding: 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .role-option:hover {
+            border-color: #667eea;
+            background: #f7fafc;
+        }
+
+        .role-option.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .role-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .role-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .alert {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert-info {
+            background: #bee3f8;
+            color: #2c5282;
+            border-left: 4px solid #3182ce;
+        }
+
+        .alert-warning {
+            background: #fef5e7;
+            color: #d68910;
+            border-left: 4px solid #f6ad55;
+        }
+
+        .alert-danger {
+            background: #fed7d7;
+            color: #c53030;
+            border-left: 4px solid #e53e3e;
+        }
+
+        .alert-success {
+            background: #c6f6d5;
+            color: #22543d;
+            border-left: 4px solid #48bb78;
+        }
+
+        /* Notification Badge */
+        .notification-badge {
+            position: relative;
+        }
+
+        .notification-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #e53e3e;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
         /* Sticky Navigation */
         nav {
             position: fixed;
@@ -47,6 +175,23 @@
             display: flex;
             align-items: center;
             gap: 8px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .user-role {
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
         }
 
         .nav-links {
@@ -169,11 +314,18 @@
             align-items: center;
             gap: 10px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.2s;
         }
 
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .btn-secondary {
@@ -205,6 +357,11 @@
             color: white;
         }
 
+        .btn-logout {
+            background: #fc8181;
+            color: white;
+        }
+
         /* Forms */
         .form-group {
             margin-bottom: 20px;
@@ -229,117 +386,25 @@
             border: 2px solid #e2e8f0;
             border-radius: 6px;
             font-size: 1rem;
-            outline: none;
-            transition: border-color 0.2s;
             font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #667eea;
         }
 
         .form-textarea {
             resize: vertical;
-            min-height: 80px;
+            min-height: 100px;
         }
 
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
-            border-color: #667eea;
-        }
-
-        .form-actions {
-            display: flex;
-            gap: 15px;
-        }
-
-        /* Property List */
-        .properties-grid {
-            display: grid;
-            gap: 20px;
-        }
-
-        .property-card {
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 20px;
-            transition: all 0.2s;
-        }
-
-        .property-card:hover {
-            border-color: #667eea;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
-        }
-
-        .property-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            gap: 20px;
-        }
-
-        .property-info {
-            flex: 1;
-        }
-
-        .property-address {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #2d3748;
-            margin-bottom: 10px;
-        }
-
-        .property-detail {
-            color: #718096;
-            margin-bottom: 8px;
-        }
-
-        .property-vacant {
-            color: #f6ad55;
-            font-style: italic;
-        }
-
-        .property-actions {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 40px;
-            color: #718096;
-        }
-
-        .empty-state-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-        }
-
-        /* Table styles */
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        .data-table th {
-            background: #f7fafc;
-            padding: 12px;
-            text-align: left;
-            font-weight: 600;
-            color: #2d3748;
-            border-bottom: 2px solid #e2e8f0;
-        }
-
-        .data-table td {
-            padding: 12px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .data-table tr:hover {
-            background: #f7fafc;
-        }
-
+        /* Status Badges */
         .status-badge {
             display: inline-block;
-            padding: 4px 12px;
-            border-radius: 12px;
+            padding: 6px 12px;
+            border-radius: 20px;
             font-size: 0.85rem;
             font-weight: 600;
         }
@@ -350,21 +415,71 @@
         }
 
         .status-pending {
-            background: #feebc8;
-            color: #744210;
+            background: #fef5e7;
+            color: #d68910;
         }
 
         .status-overdue {
             background: #fed7d7;
-            color: #742a2a;
+            color: #c53030;
         }
 
-        /* Financial Overview */
+        .status-unpaid {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        /* Data Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .data-table thead {
+            background: #f7fafc;
+        }
+
+        .data-table th, .data-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .data-table th {
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table tr:hover {
+            background: #f7fafc;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #718096;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        /* Financial Summary */
         .financial-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
-            margin-bottom: 30px;
+            margin-top: 20px;
         }
 
         .financial-card {
@@ -375,17 +490,6 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-        .financial-card h3 {
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-            opacity: 0.9;
-        }
-
-        .financial-card .amount {
-            font-size: 2rem;
-            font-weight: 700;
-        }
-
         .financial-card.expenses {
             background: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%);
         }
@@ -394,725 +498,1031 @@
             background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
         }
 
-        /* Home Page */
-        .hero {
-            text-align: center;
-            padding: 50px 30px;
+        .financial-card h3 {
+            margin: 0 0 10px;
+            font-size: 0.95rem;
+            opacity: 0.9;
         }
 
-        .hero h1 {
-            font-size: 3rem;
-            color: #2d3748;
+        .financial-card .amount {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        /* Overdue Notice */
+        .overdue-notice {
+            background: #fed7d7;
+            border-left: 4px solid #e53e3e;
+            padding: 20px;
+            border-radius: 8px;
             margin-bottom: 20px;
         }
 
-        .hero-subtitle {
-            font-size: 1.3rem;
-            color: #718096;
-            margin-bottom: 40px;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 40px;
-        }
-
-        .feature-card {
-            background: #f7fafc;
-            padding: 30px;
-            border-radius: 10px;
-            border: 2px solid #e2e8f0;
-            text-align: center;
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-        }
-
-        .feature-card h3 {
-            color: #2d3748;
+        .overdue-notice h3 {
+            color: #c53030;
             margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .feature-card p {
-            color: #718096;
+        .overdue-notice p {
+            color: #742a2a;
+            margin-bottom: 5px;
+        }
+
+        /* Payment Confirmation */
+        .payment-confirmation {
+            background: #c6f6d5;
+            border-left: 4px solid #48bb78;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .payment-confirmation h3 {
+            color: #22543d;
             margin-bottom: 15px;
         }
 
-        /* All Pages View */
-        .pages-list {
+        .confirmation-details {
             display: grid;
-            gap: 20px;
+            gap: 10px;
         }
 
-        .page-item {
+        .confirmation-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #9ae6b4;
+        }
+
+        .confirmation-row:last-child {
+            border-bottom: none;
+            font-weight: 700;
+        }
+
+        .confirmation-label {
+            color: #276749;
+            font-weight: 600;
+        }
+
+        .confirmation-value {
+            color: #22543d;
+        }
+
+        /* Rent Status Card */
+        .rent-status-card {
             background: white;
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .rent-status-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 20px;
+            margin-bottom: 20px;
         }
 
-        .page-item-content {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            flex: 1;
-        }
-
-        .page-item-icon {
-            font-size: 2.5rem;
-        }
-
-        .page-item h3 {
-            margin: 0 0 5px;
+        .property-name {
+            font-size: 1.3rem;
+            font-weight: 700;
             color: #2d3748;
         }
 
-        .page-item p {
-            margin: 0;
-            color: #718096;
+        .balance-info {
+            text-align: right;
         }
 
+        .balance-label {
+            font-size: 0.85rem;
+            color: #718096;
+            margin-bottom: 5px;
+        }
+
+        .balance-amount {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .balance-amount.paid {
+            color: #48bb78;
+        }
+
+        .balance-amount.unpaid {
+            color: #e53e3e;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
             .nav-container {
                 flex-direction: column;
-                gap: 15px;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .property-header {
-                flex-direction: column;
+                gap: 10px;
             }
 
             .nav-links {
-                flex-wrap: wrap;
+                width: 100%;
                 justify-content: center;
+                flex-wrap: wrap;
             }
 
-            .form-row {
+            .financial-grid {
                 grid-template-columns: 1fr;
             }
 
-            .property-actions {
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .property-actions button {
-                width: 100%;
+            .role-selector {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Sticky Navigation -->
-    <nav>
-        <div class="nav-container">
-            <div class="logo">🏠 Medal Homes</div>
-            <div class="nav-links">
-                <button class="nav-btn" onclick="showPage('home', event)">
-                    <span>🏠</span> Home
-                </button>
-                <button class="nav-btn" onclick="showPage('landlord', event)">
-                    <span>👨‍💼</span> Landlord
-                </button>
-                <button class="nav-btn" onclick="showPage('buyer', event)">
-                    <span>🔑</span> Buyer
-                </button>
-                <button class="nav-btn" onclick="showPage('all', event)">
-                    <span>📋</span> All Pages
-                </button>
+    <!-- Login Screen -->
+    <div id="login-screen" class="login-screen">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-logo">🏠</div>
+                <h1 class="login-title">Medal Homes Inc.</h1>
+                <p class="login-subtitle">Property Management System</p>
             </div>
-        </div>
-    </nav>
 
-    <!-- Home Page -->
-    <div id="home-page" class="page">
-        <div class="container">
-            <div class="card hero">
-                <h1>🏠 Welcome to Medal Homes</h1>
-                <p class="hero-subtitle">Modern Property Management Made Simple</p>
-                
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">👨‍💼</div>
-                        <h3>Landlords</h3>
-                        <p>Manage properties, track rent, and monitor expenses</p>
-                        <button class="btn" onclick="showPage('landlord', event)">Go to Dashboard</button>
-                    </div>
-
-                    <div class="feature-card">
-                        <div class="feature-icon">🔑</div>
-                        <h3>Buyers</h3>
-                        <p>Browse available properties and submit applications</p>
-                        <button class="btn btn-success" onclick="showPage('buyer', event)">Browse Properties</button>
+            <form id="login-form">
+                <div class="form-group">
+                    <label class="form-label">Select Your Role</label>
+                    <div class="role-selector">
+                        <div class="role-option" data-role="landlord">
+                            <div class="role-icon">👨‍💼</div>
+                            <div class="role-name">Landlord</div>
+                        </div>
+                        <div class="role-option" data-role="tenant">
+                            <div class="role-icon">🏘️</div>
+                            <div class="role-name">Tenant</div>
+                        </div>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="login-email" class="form-input" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="login-password" class="form-input" placeholder="Enter your password" required>
+                </div>
+
+                <button type="submit" class="btn" style="width: 100%;">🔐 Sign In</button>
+            </form>
+
+            <div id="login-alert" class="alert"></div>
+
+            <div style="margin-top: 20px; text-align: center; color: #718096; font-size: 0.9rem;">
+                <p><strong>Demo Credentials:</strong></p>
+                <p>Landlord: landlord@example.com / password123</p>
+                <p>Tenant: tenant@example.com / password123</p>
             </div>
         </div>
     </div>
 
-    <!-- Landlord Page -->
-    <div id="landlord-page" class="page">
-        <div class="container">
-            <div class="card">
-                <h1 class="card-title">👨‍💼 Landlord Dashboard</h1>
-                <p class="card-subtitle">Manage your properties and finances</p>
-            </div>
-
-            <!-- Sub-navigation -->
-            <div class="card">
-                <div class="sub-nav">
-                    <button class="sub-nav-btn active" onclick="showLandlordSection('properties', event)">
-                        🏠 Properties
-                    </button>
-                    <button class="sub-nav-btn" onclick="showLandlordSection('rent', event)">
-                        💰 Rent Management
-                    </button>
-                    <button class="sub-nav-btn" onclick="showLandlordSection('payments', event)">
-                        💳 Payments
-                    </button>
-                    <button class="sub-nav-btn" onclick="showLandlordSection('expenses', event)">
-                        📊 Expenses
-                    </button>
-                    <button class="sub-nav-btn" onclick="showLandlordSection('financial', event)">
-                        📈 Financial Overview
-                    </button>
+    <!-- Main Application -->
+    <div id="main-app" style="display: none;">
+        <!-- Navigation -->
+        <nav>
+            <div class="nav-container">
+                <div class="logo">
+                    <span>🏠</span>
+                    <span>Medal Homes Inc.</span>
+                </div>
+                <div class="nav-links" id="nav-links"></div>
+                <div class="user-info">
+                    <span id="user-email"></span>
+                    <span class="user-role" id="user-role"></span>
+                    <button class="btn btn-small btn-logout" onclick="logout()">🚪 Logout</button>
                 </div>
             </div>
+        </nav>
 
-            <!-- Properties Section -->
-            <div id="properties-section" class="landlord-section active">
-                <button class="btn" id="add-property-btn" onclick="showPropertyForm()">
-                    <span style="font-size: 1.2rem;">+</span> Add New Property
-                </button>
-
-                <!-- Property Form -->
-                <div class="card" id="property-form" style="display: none;">
-                    <h2 style="margin: 0 0 25px; font-size: 1.5rem; color: #2d3748;" id="form-title">Add New Property</h2>
-                    
-                    <form id="property-form-element" onsubmit="handlePropertySubmit(event)">
-                        <div class="form-group">
-                            <label class="form-label">Property Address *</label>
-                            <input 
-                                type="text" 
-                                class="form-input" 
-                                id="address" 
-                                name="address" 
-                                placeholder="123 Main Street, City, State ZIP" 
-                                required
-                            >
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Unit Number (Optional)</label>
-                                <input 
-                                    type="text" 
-                                    class="form-input" 
-                                    id="unitNumber" 
-                                    name="unitNumber" 
-                                    placeholder="Apt 4B, Unit 102, etc."
-                                >
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Tenant Name</label>
-                                <input 
-                                    type="text" 
-                                    class="form-input" 
-                                    id="tenant" 
-                                    name="tenant" 
-                                    placeholder="John Smith"
-                                >
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Monthly Rent ($)</label>
-                                <input 
-                                    type="number" 
-                                    class="form-input" 
-                                    id="monthlyRent" 
-                                    name="monthlyRent" 
-                                    placeholder="1500"
-                                    step="0.01"
-                                >
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Rent Effective Date</label>
-                                <input 
-                                    type="date" 
-                                    class="form-input" 
-                                    id="rentEffectiveDate" 
-                                    name="rentEffectiveDate"
-                                >
-                            </div>
-                        </div>
-
-                        <div class="form-actions">
-                            <button type="submit" class="btn" id="submit-btn">Save Property</button>
-                            <button type="button" class="btn btn-secondary" onclick="cancelPropertyForm()">Cancel</button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Properties List -->
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <div class="container">
                 <div class="card">
-                    <h2 style="margin: 0 0 25px; font-size: 1.5rem; color: #2d3748;">
-                        All Properties (<span id="property-count">0</span>)
-                    </h2>
+                    <h1 class="card-title">🏠 Welcome to Medal Homes Inc.</h1>
+                    <p class="card-subtitle" id="welcome-message"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Landlord Pages -->
+        <div id="landlord" class="page">
+            <div class="container">
+                <div class="sub-nav" id="landlord-nav">
+                    <button class="sub-nav-btn active" onclick="showLandlordSection('properties')">🏢 Properties</button>
+                    <button class="sub-nav-btn" onclick="showLandlordSection('rent')">💰 Rent Management</button>
+                    <button class="sub-nav-btn" onclick="showLandlordSection('payments')">💳 Payments</button>
+                    <button class="sub-nav-btn" onclick="showLandlordSection('expenses')">📊 Expenses</button>
+                    <button class="sub-nav-btn" onclick="showLandlordSection('financial')">📈 Financial Overview</button>
+                </div>
+
+                <!-- Properties Section -->
+                <div id="properties-section" class="landlord-section active">
+                    <div class="card">
+                        <h2 class="card-title">🏢 Property Management</h2>
+                        <p class="card-subtitle">Manage your rental properties</p>
+                    </div>
+
+                    <div class="card">
+                        <button class="btn" onclick="showPropertyForm()">➕ Add Property</button>
+                    </div>
+
+                    <div id="property-form" style="display: none;">
+                        <div class="card">
+                            <h3 style="margin-bottom: 20px;">Add New Property</h3>
+                            <form id="property-form-element" onsubmit="handlePropertySubmit(event)">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Address</label>
+                                        <input type="text" id="address" class="form-input" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Unit Number (optional)</label>
+                                        <input type="text" id="unitNumber" class="form-input">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Property Type</label>
+                                        <select id="propertyType" class="form-select" required>
+                                            <option value="">-- Select Type --</option>
+                                            <option value="Apartment">Apartment</option>
+                                            <option value="House">House</option>
+                                            <option value="Condo">Condo</option>
+                                            <option value="Townhouse">Townhouse</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Monthly Rent ($)</label>
+                                        <input type="number" id="monthlyRent" class="form-input" step="0.01" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Notes (optional)</label>
+                                    <textarea id="notes" class="form-textarea"></textarea>
+                                </div>
+                                <div style="display: flex; gap: 10px;">
+                                    <button type="submit" class="btn btn-success">💾 Save Property</button>
+                                    <button type="button" class="btn btn-secondary" onclick="cancelPropertyForm()">❌ Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
                     <div id="properties-list"></div>
                 </div>
-            </div>
 
-            <!-- Rent Management Section -->
-            <div id="rent-section" class="landlord-section">
-                <button class="btn" onclick="showRentForm()">
-                    <span style="font-size: 1.2rem;">+</span> Set/Update Rent
-                </button>
+                <!-- Rent Management Section -->
+                <div id="rent-section" class="landlord-section">
+                    <div class="card">
+                        <h2 class="card-title">💰 Rent Management</h2>
+                        <p class="card-subtitle">Set and manage rent schedules</p>
+                    </div>
 
-                <!-- Rent Form -->
-                <div class="card" id="rent-form" style="display: none;">
-                    <h2 style="margin: 0 0 25px; font-size: 1.5rem; color: #2d3748;">Set Monthly Rent</h2>
-                    
-                    <form id="rent-form-element" onsubmit="handleRentSubmit(event)">
-                        <div class="form-group">
-                            <label class="form-label">Select Property *</label>
-                            <select class="form-select" id="rent-property" required>
-                                <option value="">-- Select a Property --</option>
-                            </select>
+                    <div class="card">
+                        <button class="btn" onclick="showRentForm()">➕ Add Rent Schedule</button>
+                    </div>
+
+                    <div id="rent-form" style="display: none;">
+                        <div class="card">
+                            <h3 style="margin-bottom: 20px;">Add Rent Schedule</h3>
+                            <form id="rent-form-element" onsubmit="handleRentSubmit(event)">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Property</label>
+                                        <select id="rent-property" class="form-select" required>
+                                            <option value="">-- Select a Property --</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Tenant Name</label>
+                                        <input type="text" id="rent-tenant-name" class="form-input" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Monthly Amount ($)</label>
+                                        <input type="number" id="rent-amount" class="form-input" step="0.01" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Due Day (1-31)</label>
+                                        <input type="number" id="rent-due-day" class="form-input" min="1" max="31" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Effective Date</label>
+                                        <input type="date" id="rent-effective-date" class="form-input" required>
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 10px;">
+                                    <button type="submit" class="btn btn-success">💾 Save Rent Schedule</button>
+                                    <button type="button" class="btn btn-secondary" onclick="cancelRentForm()">❌ Cancel</button>
+                                </div>
+                            </form>
                         </div>
+                    </div>
 
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Monthly Rent Amount ($) *</label>
-                                <input 
-                                    type="number" 
-                                    class="form-input" 
-                                    id="rent-amount" 
-                                    placeholder="1500"
-                                    step="0.01"
-                                    required
-                                >
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Effective Date *</label>
-                                <input 
-                                    type="date" 
-                                    class="form-input" 
-                                    id="rent-effective-date" 
-                                    required
-                                >
-                            </div>
-                        </div>
-
-                        <div class="form-actions">
-                            <button type="submit" class="btn">Save Rent</button>
-                            <button type="button" class="btn btn-secondary" onclick="cancelRentForm()">Cancel</button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Rent History -->
-                <div class="card">
-                    <h2 style="margin: 0 0 25px; font-size: 1.5rem; color: #2d3748;">
-                        Rent History
-                    </h2>
                     <div id="rent-list"></div>
                 </div>
-            </div>
 
-            <!-- Payments Section -->
-            <div id="payments-section" class="landlord-section">
-                <button class="btn" onclick="showPaymentForm()">
-                    <span style="font-size: 1.2rem;">+</span> Record Payment
-                </button>
+                <!-- Payments Section -->
+                <div id="payments-section" class="landlord-section">
+                    <div class="card">
+                        <h2 class="card-title">💳 Payment Management</h2>
+                        <p class="card-subtitle">Record and track rent payments</p>
+                    </div>
 
-                <!-- Payment Form -->
-                <div class="card" id="payment-form" style="display: none;">
-                    <h2 style="margin: 0 0 25px; font-size: 1.5rem; color: #2d3748;">Record Rent Payment</h2>
-                    
-                    <form id="payment-form-element" onsubmit="handlePaymentSubmit(event)">
-                        <div class="form-group">
-                            <label class="form-label">Select Property *</label>
-                            <select class="form-select" id="payment-property" required>
-                                <option value="">-- Select a Property --</option>
-                            </select>
+                    <div class="card">
+                        <button class="btn" onclick="showPaymentForm()">➕ Record Payment</button>
+                    </div>
+
+                    <div id="payment-form" style="display: none;">
+                        <div class="card">
+                            <h3 style="margin-bottom: 20px;">Record Payment</h3>
+                            <form id="payment-form-element" onsubmit="handlePaymentSubmit(event)">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Property</label>
+                                        <select id="payment-property" class="form-select" required>
+                                            <option value="">-- Select a Property --</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Amount ($)</label>
+                                        <input type="number" id="payment-amount" class="form-input" step="0.01" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Payment Date</label>
+                                        <input type="date" id="payment-date" class="form-input" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Status</label>
+                                        <select id="payment-status" class="form-select" required>
+                                            <option value="pending">Pending</option>
+                                            <option value="confirmed">Confirmed</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 10px;">
+                                    <button type="submit" class="btn btn-success">💾 Save Payment</button>
+                                    <button type="button" class="btn btn-secondary" onclick="cancelPaymentForm()">❌ Cancel</button>
+                                </div>
+                            </form>
                         </div>
+                    </div>
 
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Payment Amount ($) *</label>
-                                <input 
-                                    type="number" 
-                                    class="form-input" 
-                                    id="payment-amount" 
-                                    placeholder="1500"
-                                    step="0.01"
-                                    required
-                                >
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Payment Date *</label>
-                                <input 
-                                    type="date" 
-                                    class="form-input" 
-                                    id="payment-date" 
-                                    required
-                                >
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Payment Status *</label>
-                            <select class="form-select" id="payment-status" required>
-                                <option value="confirmed">Confirmed</option>
-                                <option value="pending">Pending</option>
-                                <option value="failed">Failed</option>
-                            </select>
-                        </div>
-
-                        <div class="form-actions">
-                            <button type="submit" class="btn">Record Payment</button>
-                            <button type="button" class="btn btn-secondary" onclick="cancelPaymentForm()">Cancel</button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Payments List -->
-                <div class="card">
-                    <h2 style="margin: 0 0 25px; font-size: 1.5rem; color: #2d3748;">
-                        Payment History
-                    </h2>
                     <div id="payments-list"></div>
                 </div>
-            </div>
 
-            <!-- Expenses Section -->
-            <div id="expenses-section" class="landlord-section">
-                <button class="btn" onclick="showExpenseForm()">
-                    <span style="font-size: 1.2rem;">+</span> Add Expense
-                </button>
+                <!-- Expenses Section -->
+                <div id="expenses-section" class="landlord-section">
+                    <div class="card">
+                        <h2 class="card-title">📊 Expense Tracking</h2>
+                        <p class="card-subtitle">Track property-related expenses</p>
+                    </div>
 
-                <!-- Expense Form -->
-                <div class="card" id="expense-form" style="display: none;">
-                    <h2 style="margin: 0 0 25px; font-size: 1.5rem; color: #2d3748;">Add Property Expense</h2>
-                    
-                    <form id="expense-form-element" onsubmit="handleExpenseSubmit(event)">
-                        <div class="form-group">
-                            <label class="form-label">Select Property *</label>
-                            <select class="form-select" id="expense-property" required>
-                                <option value="">-- Select a Property --</option>
-                            </select>
+                    <div class="card">
+                        <button class="btn" onclick="showExpenseForm()">➕ Add Expense</button>
+                    </div>
+
+                    <div id="expense-form" style="display: none;">
+                        <div class="card">
+                            <h3 style="margin-bottom: 20px;">Add Expense</h3>
+                            <form id="expense-form-element" onsubmit="handleExpenseSubmit(event)">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Property</label>
+                                        <select id="expense-property" class="form-select" required>
+                                            <option value="">-- Select a Property --</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Category</label>
+                                        <select id="expense-category" class="form-select" required>
+                                            <option value="">-- Select Category --</option>
+                                            <option value="Maintenance">Maintenance</option>
+                                            <option value="Repairs">Repairs</option>
+                                            <option value="Utilities">Utilities</option>
+                                            <option value="Insurance">Insurance</option>
+                                            <option value="Property Tax">Property Tax</option>
+                                            <option value="HOA Fees">HOA Fees</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Amount ($)</label>
+                                        <input type="number" id="expense-amount" class="form-input" step="0.01" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Date</label>
+                                        <input type="date" id="expense-date" class="form-input" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Notes (optional)</label>
+                                    <textarea id="expense-notes" class="form-textarea"></textarea>
+                                </div>
+                                <div style="display: flex; gap: 10px;">
+                                    <button type="submit" class="btn btn-success">💾 Save Expense</button>
+                                    <button type="button" class="btn btn-secondary" onclick="cancelExpenseForm()">❌ Cancel</button>
+                                </div>
+                            </form>
                         </div>
+                    </div>
 
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Category *</label>
-                                <select class="form-select" id="expense-category" required>
-                                    <option value="">-- Select Category --</option>
-                                    <option value="Maintenance">Maintenance</option>
-                                    <option value="Repairs">Repairs</option>
-                                    <option value="Utilities">Utilities</option>
-                                    <option value="Property Tax">Property Tax</option>
-                                    <option value="Insurance">Insurance</option>
-                                    <option value="HOA Fees">HOA Fees</option>
-                                    <option value="Marketing">Marketing</option>
-                                    <option value="Legal">Legal</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Amount ($) *</label>
-                                <input 
-                                    type="number" 
-                                    class="form-input" 
-                                    id="expense-amount" 
-                                    placeholder="500"
-                                    step="0.01"
-                                    required
-                                >
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Date *</label>
-                                <input 
-                                    type="date" 
-                                    class="form-input" 
-                                    id="expense-date" 
-                                    required
-                                >
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Notes (Optional)</label>
-                            <textarea 
-                                class="form-textarea" 
-                                id="expense-notes" 
-                                placeholder="Additional details about this expense..."
-                            ></textarea>
-                        </div>
-
-                        <div class="form-actions">
-                            <button type="submit" class="btn">Save Expense</button>
-                            <button type="button" class="btn btn-secondary" onclick="cancelExpenseForm()">Cancel</button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Expenses List -->
-                <div class="card">
-                    <h2 style="margin: 0 0 25px; font-size: 1.5rem; color: #2d3748;">
-                        Expense History
-                    </h2>
                     <div id="expenses-list"></div>
                 </div>
-            </div>
 
-            <!-- Financial Overview Section -->
-            <div id="financial-section" class="landlord-section">
-                <div class="card">
-                    <h2 style="margin: 0 0 25px; font-size: 1.5rem; color: #2d3748;">
-                        Overall Financial Summary
-                    </h2>
-                    <div id="overall-financial-summary"></div>
-                </div>
+                <!-- Financial Overview Section -->
+                <div id="financial-section" class="landlord-section">
+                    <div class="card">
+                        <h2 class="card-title">📈 Financial Overview</h2>
+                        <p class="card-subtitle">View your financial performance</p>
+                    </div>
 
-                <div class="card">
-                    <h2 style="margin: 0 0 25px; font-size: 1.5rem; color: #2d3748;">
-                        Per-Property Financial Summary
-                    </h2>
+                    <div class="card">
+                        <h3 style="margin-bottom: 20px;">Overall Summary</h3>
+                        <div id="overall-financial-summary"></div>
+                    </div>
+
                     <div id="property-financial-summary"></div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Buyer Page -->
-    <div id="buyer-page" class="page">
-        <div class="container">
-            <div class="card">
-                <h1 class="card-title">🔑 Buyer Portal</h1>
-                <p class="card-subtitle">Coming Soon - Browse and apply for properties</p>
-            </div>
+        <!-- Tenant Pages -->
+        <div id="tenant" class="page">
+            <div class="container">
+                <!-- Overdue Notifications -->
+                <div id="overdue-notifications"></div>
 
-            <div class="card" style="text-align: center; padding: 50px;">
-                <div style="font-size: 4rem; margin-bottom: 20px;">🏘️</div>
-                <h2 style="color: #2d3748; margin-bottom: 15px;">Feature Coming Soon</h2>
-                <p style="color: #718096;">
-                    The buyer portal will allow you to browse available properties and submit rental applications.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- All Pages View -->
-    <div id="all-page" class="page">
-        <div class="container">
-            <div class="card">
-                <h1 class="card-title">📋 All Pages Overview</h1>
-                <p class="card-subtitle">Quick access to all system pages</p>
-            </div>
-
-            <div class="pages-list">
-                <div class="page-item">
-                    <div class="page-item-content">
-                        <div class="page-item-icon">🏠</div>
-                        <div>
-                            <h3>Home</h3>
-                            <p>Welcome page and navigation hub</p>
-                        </div>
-                    </div>
-                    <button class="btn" onclick="showPage('home', event)">Visit Page</button>
+                <!-- Rent Status -->
+                <div class="card">
+                    <h2 class="card-title">💰 Rent Status</h2>
+                    <p class="card-subtitle">Current rent status and outstanding balances</p>
                 </div>
+                <div id="tenant-rent-status"></div>
 
-                <div class="page-item">
-                    <div class="page-item-content">
-                        <div class="page-item-icon">👨‍💼</div>
-                        <div>
-                            <h3>Landlord Dashboard</h3>
-                            <p>Property management, rent tracking, and financial overview</p>
-                        </div>
-                    </div>
-                    <button class="btn" onclick="showPage('landlord', event)">Visit Page</button>
+                <!-- Payment Confirmation -->
+                <div class="card">
+                    <h2 class="card-title">✅ Recent Payment Confirmations</h2>
+                    <p class="card-subtitle">View confirmation of submitted rent payments</p>
                 </div>
+                <div id="tenant-payment-confirmations"></div>
 
-                <div class="page-item">
-                    <div class="page-item-content">
-                        <div class="page-item-icon">🔑</div>
-                        <div>
-                            <h3>Buyer Portal</h3>
-                            <p>Browse properties and submit applications</p>
-                        </div>
-                    </div>
-                    <button class="btn btn-success" onclick="showPage('buyer', event)">Visit Page</button>
+                <!-- Payment History -->
+                <div class="card">
+                    <h2 class="card-title">📜 Payment History</h2>
+                    <p class="card-subtitle">View your past rent payments (read-only)</p>
                 </div>
+                <div id="tenant-payment-history"></div>
             </div>
         </div>
     </div>
 
     <script>
-        // State management
+        // Global Data Storage
         let properties = [];
-        let rents = [];
+        let rentSchedules = [];
         let payments = [];
         let expenses = [];
-        let editingPropertyId = null;
+        let currentUser = null;
+        let currentRole = null;
 
-        // Load all data from localStorage
-        function loadData() {
-            const storedProperties = localStorage.getItem('medal_homes_properties');
-            const storedRents = localStorage.getItem('medal_homes_rents');
-            const storedPayments = localStorage.getItem('medal_homes_payments');
-            const storedExpenses = localStorage.getItem('medal_homes_expenses');
-            
-            if (storedProperties) properties = JSON.parse(storedProperties);
-            if (storedRents) rents = JSON.parse(storedRents);
-            if (storedPayments) payments = JSON.parse(storedPayments);
-            if (storedExpenses) expenses = JSON.parse(storedExpenses);
-            
-            renderAll();
+        // Demo Users
+        const users = {
+            'landlord@example.com': { password: 'password123', role: 'landlord', name: 'John Landlord' },
+            'tenant@example.com': { password: 'password123', role: 'tenant', name: 'Jane Tenant', propertyId: null }
+        };
+
+        // Authentication Functions
+        function initLogin() {
+            const roleOptions = document.querySelectorAll('.role-option');
+            roleOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    roleOptions.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+
+            document.getElementById('login-form').addEventListener('submit', handleLogin);
         }
 
-        // Save data to localStorage
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const selectedRole = document.querySelector('.role-option.selected');
+            
+            const alertDiv = document.getElementById('login-alert');
+            
+            if (!selectedRole) {
+                showAlert(alertDiv, 'Please select your role (Landlord or Tenant)', 'alert-warning');
+                return;
+            }
+            
+            const role = selectedRole.dataset.role;
+            
+            // Validate credentials
+            const user = users[email];
+            if (!user || user.password !== password) {
+                showAlert(alertDiv, 'Invalid email or password', 'alert-danger');
+                return;
+            }
+            
+            if (user.role !== role) {
+                showAlert(alertDiv, 'Selected role does not match your account', 'alert-danger');
+                return;
+            }
+            
+            // Successful login
+            currentUser = { email, ...user };
+            currentRole = role;
+            
+            // Hide login screen and show main app
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('main-app').style.display = 'block';
+            
+            // Initialize app based on role
+            initializeApp();
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                currentUser = null;
+                currentRole = null;
+                
+                // Reset and show login screen
+                document.getElementById('login-screen').style.display = 'flex';
+                document.getElementById('main-app').style.display = 'none';
+                document.getElementById('login-form').reset();
+                document.querySelectorAll('.role-option').forEach(opt => opt.classList.remove('selected'));
+                document.getElementById('login-alert').style.display = 'none';
+            }
+        }
+
+        function showAlert(element, message, className) {
+            element.textContent = message;
+            element.className = 'alert ' + className;
+            element.style.display = 'block';
+            setTimeout(() => {
+                element.style.display = 'none';
+            }, 5000);
+        }
+
+        // Initialize App
+        function initializeApp() {
+            // Update user info in nav
+            document.getElementById('user-email').textContent = currentUser.email;
+            document.getElementById('user-role').textContent = currentRole.charAt(0).toUpperCase() + currentRole.slice(1);
+            
+            // Set welcome message
+            document.getElementById('welcome-message').textContent = 
+                `Welcome back, ${currentUser.name}! You are logged in as a ${currentRole}.`;
+            
+            // Setup navigation based on role
+            setupNavigation();
+            
+            // Load data
+            loadData();
+            
+            // Show appropriate page
+            if (currentRole === 'landlord') {
+                showPage('home');
+            } else {
+                showPage('tenant');
+                renderTenantDashboard();
+            }
+        }
+
+        function setupNavigation() {
+            const navLinks = document.getElementById('nav-links');
+            
+            if (currentRole === 'landlord') {
+                navLinks.innerHTML = `
+                    <button class="nav-btn active" onclick="showPage('home')">🏠 Home</button>
+                    <button class="nav-btn" onclick="showPage('landlord')">👨‍💼 Landlord Dashboard</button>
+                `;
+            } else {
+                navLinks.innerHTML = `
+                    <button class="nav-btn active" onclick="showPage('home')">🏠 Home</button>
+                    <button class="nav-btn notification-badge" onclick="showPage('tenant')">
+                        🏘️ Tenant Dashboard
+                        <span class="notification-count" id="overdue-count" style="display: none;">0</span>
+                    </button>
+                `;
+            }
+        }
+
+        // Page Navigation
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if (pageId === 'landlord') {
+                showLandlordSection('properties');
+            } else if (pageId === 'tenant') {
+                renderTenantDashboard();
+            }
+        }
+
+        function showLandlordSection(sectionId) {
+            document.querySelectorAll('.landlord-section').forEach(section => section.classList.remove('active'));
+            document.getElementById(sectionId + '-section').classList.add('active');
+
+            document.querySelectorAll('.sub-nav-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Render appropriate section
+            if (sectionId === 'properties') {
+                renderProperties();
+            } else if (sectionId === 'rent') {
+                renderRentSchedules();
+            } else if (sectionId === 'payments') {
+                renderPayments();
+            } else if (sectionId === 'expenses') {
+                renderExpenses();
+            } else if (sectionId === 'financial') {
+                renderFinancialOverview();
+            }
+        }
+
+        // Data Management
         function saveData() {
-            localStorage.setItem('medal_homes_properties', JSON.stringify(properties));
-            localStorage.setItem('medal_homes_rents', JSON.stringify(rents));
-            localStorage.setItem('medal_homes_payments', JSON.stringify(payments));
-            localStorage.setItem('medal_homes_expenses', JSON.stringify(expenses));
-            renderAll();
-        }
-
-        // Render all views
-        function renderAll() {
-            renderProperties();
-            renderRents();
-            renderPayments();
-            renderExpenses();
-            renderFinancialOverview();
+            localStorage.setItem('medalHomes_properties', JSON.stringify(properties));
+            localStorage.setItem('medalHomes_rentSchedules', JSON.stringify(rentSchedules));
+            localStorage.setItem('medalHomes_payments', JSON.stringify(payments));
+            localStorage.setItem('medalHomes_expenses', JSON.stringify(expenses));
+            
             updatePropertyDropdowns();
-        }
-
-        // Page navigation
-        function showPage(pageName, event) {
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
             
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            document.getElementById(pageName + '-page').classList.add('active');
-            
-            if (event) {
-                const button = event.target.closest('.nav-btn');
-                if (button) {
-                    button.classList.add('active');
+            // Re-render current view
+            if (currentRole === 'landlord') {
+                const activeSection = document.querySelector('.landlord-section.active');
+                if (activeSection) {
+                    const sectionId = activeSection.id.replace('-section', '');
+                    if (sectionId === 'properties') renderProperties();
+                    else if (sectionId === 'rent') renderRentSchedules();
+                    else if (sectionId === 'payments') renderPayments();
+                    else if (sectionId === 'expenses') renderExpenses();
+                    else if (sectionId === 'financial') renderFinancialOverview();
                 }
             } else {
-                document.querySelectorAll('.nav-btn').forEach(btn => {
-                    if (btn.textContent.toLowerCase().includes(pageName)) {
-                        btn.classList.add('active');
+                renderTenantDashboard();
+            }
+        }
+
+        function loadData() {
+            const storedProperties = localStorage.getItem('medalHomes_properties');
+            const storedRentSchedules = localStorage.getItem('medalHomes_rentSchedules');
+            const storedPayments = localStorage.getItem('medalHomes_payments');
+            const storedExpenses = localStorage.getItem('medalHomes_expenses');
+
+            properties = storedProperties ? JSON.parse(storedProperties) : [];
+            rentSchedules = storedRentSchedules ? JSON.parse(storedRentSchedules) : [];
+            payments = storedPayments ? JSON.parse(storedPayments) : [];
+            expenses = storedExpenses ? JSON.parse(storedExpenses) : [];
+
+            updatePropertyDropdowns();
+            
+            // Check for overdue rents and update notifications
+            checkOverdueRents();
+        }
+
+        // Tenant Dashboard Functions
+        function renderTenantDashboard() {
+            renderOverdueNotifications();
+            renderTenantRentStatus();
+            renderPaymentConfirmations();
+            renderTenantPaymentHistory();
+        }
+
+        function checkOverdueRents() {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            rentSchedules.forEach(rent => {
+                const property = properties.find(p => p.id === rent.propertyId);
+                if (!property) return;
+                
+                const dueDay = parseInt(rent.dueDay);
+                const currentMonth = today.getMonth();
+                const currentYear = today.getFullYear();
+                
+                // Create due date for current month
+                let dueDate = new Date(currentYear, currentMonth, dueDay);
+                
+                // If due date has passed this month
+                if (dueDate < today) {
+                    // Check if payment was made for this period
+                    const paymentMade = payments.some(payment => {
+                        const paymentDate = new Date(payment.date);
+                        return payment.propertyId === rent.propertyId &&
+                               paymentDate.getMonth() === currentMonth &&
+                               paymentDate.getFullYear() === currentYear;
+                    });
+                    
+                    // If no payment made, create overdue notification
+                    if (!paymentMade) {
+                        // Mark rent as overdue (you could add this to rent object)
+                        rent.isOverdue = true;
+                        rent.overdueAmount = parseFloat(rent.amount);
+                        rent.dueDate = dueDate.toISOString();
+                    } else {
+                        rent.isOverdue = false;
                     }
+                } else {
+                    rent.isOverdue = false;
+                }
+            });
+            
+            // Update notification badge
+            const overdueCount = rentSchedules.filter(r => r.isOverdue).length;
+            const countBadge = document.getElementById('overdue-count');
+            if (countBadge) {
+                if (overdueCount > 0) {
+                    countBadge.textContent = overdueCount;
+                    countBadge.style.display = 'flex';
+                } else {
+                    countBadge.style.display = 'none';
+                }
+            }
+        }
+
+        function renderOverdueNotifications() {
+            const container = document.getElementById('overdue-notifications');
+            const overdueRents = rentSchedules.filter(r => r.isOverdue);
+            
+            if (overdueRents.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+            
+            const noticesHTML = overdueRents.map(rent => {
+                const property = properties.find(p => p.id === rent.propertyId);
+                const daysOverdue = Math.floor((new Date() - new Date(rent.dueDate)) / (1000 * 60 * 60 * 24));
+                
+                return `
+                    <div class="overdue-notice">
+                        <h3>⚠️ Overdue Rent Notice</h3>
+                        <p><strong>Property:</strong> ${property ? property.address : 'Unknown'}</p>
+                        <p><strong>Amount Due:</strong> $${parseFloat(rent.overdueAmount).toFixed(2)}</p>
+                        <p><strong>Due Date:</strong> ${new Date(rent.dueDate).toLocaleDateString()}</p>
+                        <p><strong>Days Overdue:</strong> ${daysOverdue} days</p>
+                        <p style="margin-top: 10px;"><em>Please submit your payment as soon as possible to avoid late fees.</em></p>
+                    </div>
+                `;
+            }).join('');
+            
+            container.innerHTML = noticesHTML;
+        }
+
+        function renderTenantRentStatus() {
+            const container = document.getElementById('tenant-rent-status');
+            
+            if (rentSchedules.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📋</div>
+                        <p>No rent schedules found for your account.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            const statusHTML = rentSchedules.map(rent => {
+                const property = properties.find(p => p.id === rent.propertyId);
+                const currentMonth = today.getMonth();
+                const currentYear = today.getFullYear();
+                
+                // Check if payment was made this month
+                const monthlyPayments = payments.filter(payment => {
+                    const paymentDate = new Date(payment.date);
+                    return payment.propertyId === rent.propertyId &&
+                           paymentDate.getMonth() === currentMonth &&
+                           paymentDate.getFullYear() === currentYear;
                 });
+                
+                const totalPaid = monthlyPayments
+                    .filter(p => p.status === 'confirmed')
+                    .reduce((sum, p) => sum + parseFloat(p.amount), 0);
+                
+                const rentAmount = parseFloat(rent.amount);
+                const balance = rentAmount - totalPaid;
+                const status = balance <= 0 ? 'paid' : (rent.isOverdue ? 'overdue' : 'unpaid');
+                
+                return `
+                    <div class="rent-status-card">
+                        <div class="rent-status-header">
+                            <div>
+                                <div class="property-name">📍 ${property ? property.address : 'Unknown Property'}</div>
+                                <div style="color: #718096; margin-top: 5px;">
+                                    Tenant: ${rent.tenantName} | Due: ${rent.dueDay}${getDaySuffix(rent.dueDay)} of each month
+                                </div>
+                            </div>
+                            <div class="balance-info">
+                                <div class="balance-label">Current Balance</div>
+                                <div class="balance-amount ${balance <= 0 ? 'paid' : 'unpaid'}">
+                                    ${balance <= 0 ? '$0.00' : '$' + balance.toFixed(2)}
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e2e8f0;">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                                <div>
+                                    <div style="color: #718096; font-size: 0.85rem;">Monthly Rent</div>
+                                    <div style="font-weight: 700; font-size: 1.2rem; color: #2d3748;">$${rentAmount.toFixed(2)}</div>
+                                </div>
+                                <div>
+                                    <div style="color: #718096; font-size: 0.85rem;">Paid This Month</div>
+                                    <div style="font-weight: 700; font-size: 1.2rem; color: #48bb78;">$${totalPaid.toFixed(2)}</div>
+                                </div>
+                                <div>
+                                    <div style="color: #718096; font-size: 0.85rem;">Status</div>
+                                    <div style="margin-top: 5px;">
+                                        <span class="status-badge ${status === 'paid' ? 'status-paid' : status === 'overdue' ? 'status-overdue' : 'status-unpaid'}">
+                                            ${status === 'paid' ? '✅ Paid' : status === 'overdue' ? '⚠️ Overdue' : '⏳ Unpaid'}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            container.innerHTML = statusHTML;
+        }
+
+        function renderPaymentConfirmations() {
+            const container = document.getElementById('tenant-payment-confirmations');
+            
+            // Get most recent 3 payments
+            const recentPayments = [...payments]
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .slice(0, 3);
+            
+            if (recentPayments.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">💳</div>
+                        <p>No payment confirmations available yet.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const confirmationsHTML = recentPayments.map(payment => {
+                const property = properties.find(p => p.id === payment.propertyId);
+                const statusClass = payment.status === 'confirmed' ? 'payment-confirmation' : 'card';
+                const statusIcon = payment.status === 'confirmed' ? '✅' : '⏳';
+                
+                return `
+                    <div class="${statusClass}" style="margin-bottom: 15px;">
+                        <h3 style="margin-bottom: 15px; color: ${payment.status === 'confirmed' ? '#22543d' : '#2d3748'};">
+                            ${statusIcon} Payment ${payment.status === 'confirmed' ? 'Confirmed' : 'Pending'}
+                        </h3>
+                        <div class="confirmation-details">
+                            <div class="confirmation-row">
+                                <span class="confirmation-label">Property:</span>
+                                <span class="confirmation-value">${property ? property.address : 'Unknown'}</span>
+                            </div>
+                            <div class="confirmation-row">
+                                <span class="confirmation-label">Amount:</span>
+                                <span class="confirmation-value">$${parseFloat(payment.amount).toFixed(2)}</span>
+                            </div>
+                            <div class="confirmation-row">
+                                <span class="confirmation-label">Date:</span>
+                                <span class="confirmation-value">${new Date(payment.date).toLocaleDateString()}</span>
+                            </div>
+                            <div class="confirmation-row">
+                                <span class="confirmation-label">Status:</span>
+                                <span class="confirmation-value">
+                                    <span class="status-badge ${payment.status === 'confirmed' ? 'status-paid' : 'status-pending'}">
+                                        ${payment.status.charAt(0).toUpperCase() + payment.status.slice(1)}
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            container.innerHTML = confirmationsHTML;
+        }
+
+        function renderTenantPaymentHistory() {
+            const container = document.getElementById('tenant-payment-history');
+            
+            if (payments.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📜</div>
+                        <p>No payment history available yet.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const sortedPayments = [...payments].sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            container.innerHTML = `
+                <div class="card">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${sortedPayments.map(payment => {
+                                const property = properties.find(p => p.id === payment.propertyId);
+                                const statusClass = payment.status === 'confirmed' ? 'status-paid' : 
+                                                  payment.status === 'pending' ? 'status-pending' : 'status-overdue';
+                                return `
+                                    <tr>
+                                        <td>${property ? property.address : 'Unknown Property'}</td>
+                                        <td>$${parseFloat(payment.amount).toFixed(2)}</td>
+                                        <td>${new Date(payment.date).toLocaleDateString()}</td>
+                                        <td><span class="status-badge ${statusClass}">${payment.status.charAt(0).toUpperCase() + payment.status.slice(1)}</span></td>
+                                    </tr>
+                                `;
+                            }).join('')}
+                        </tbody>
+                    </table>
+                    <div style="margin-top: 20px; padding: 15px; background: #f7fafc; border-radius: 8px; color: #718096; font-size: 0.9rem;">
+                        ℹ️ Payment history is read-only. Contact your landlord if you notice any discrepancies.
+                    </div>
+                </div>
+            `;
+        }
+
+        function getDaySuffix(day) {
+            if (day >= 11 && day <= 13) return 'th';
+            switch (day % 10) {
+                case 1: return 'st';
+                case 2: return 'nd';
+                case 3: return 'rd';
+                default: return 'th';
             }
         }
 
-        // Landlord section navigation
-        function showLandlordSection(sectionName, event) {
-            document.querySelectorAll('.landlord-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            
-            document.querySelectorAll('.sub-nav-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            document.getElementById(sectionName + '-section').classList.add('active');
-            
-            if (event) {
-                event.target.classList.add('active');
-            }
-        }
-
-        // Property Management Functions
+        // Property Functions
         function showPropertyForm() {
             document.getElementById('property-form').style.display = 'block';
-            document.getElementById('add-property-btn').style.display = 'none';
         }
 
         function cancelPropertyForm() {
             document.getElementById('property-form').style.display = 'none';
-            document.getElementById('add-property-btn').style.display = 'inline-flex';
             document.getElementById('property-form-element').reset();
-            editingPropertyId = null;
-            document.getElementById('form-title').textContent = 'Add New Property';
-            document.getElementById('submit-btn').textContent = 'Save Property';
         }
 
         function handlePropertySubmit(event) {
             event.preventDefault();
             
-            const formData = {
+            const newProperty = {
+                id: Date.now().toString(),
                 address: document.getElementById('address').value,
                 unitNumber: document.getElementById('unitNumber').value,
-                tenant: document.getElementById('tenant').value,
+                propertyType: document.getElementById('propertyType').value,
                 monthlyRent: document.getElementById('monthlyRent').value,
-                rentEffectiveDate: document.getElementById('rentEffectiveDate').value
+                notes: document.getElementById('notes').value
             };
 
-            if (editingPropertyId) {
-                const index = properties.findIndex(p => p.id === editingPropertyId);
-                properties[index] = { ...formData, id: editingPropertyId };
-            } else {
-                const newProperty = {
-                    ...formData,
-                    id: Date.now().toString()
-                };
-                properties.push(newProperty);
-            }
-
+            properties.push(newProperty);
             saveData();
             cancelPropertyForm();
         }
 
-        function editProperty(id) {
-            const property = properties.find(p => p.id === id);
-            if (property) {
-                editingPropertyId = id;
-                document.getElementById('address').value = property.address;
-                document.getElementById('unitNumber').value = property.unitNumber || '';
-                document.getElementById('tenant').value = property.tenant || '';
-                document.getElementById('monthlyRent').value = property.monthlyRent || '';
-                document.getElementById('rentEffectiveDate').value = property.rentEffectiveDate || '';
-                document.getElementById('form-title').textContent = 'Edit Property';
-                document.getElementById('submit-btn').textContent = 'Update Property';
-                showPropertyForm();
-            }
-        }
-
         function deleteProperty(id) {
-            if (confirm('Are you sure you want to delete this property? This will also delete all associated rent, payments, and expenses.')) {
+            if (confirm('Are you sure you want to delete this property? This will also delete associated rent schedules, payments, and expenses.')) {
                 properties = properties.filter(p => p.id !== id);
-                rents = rents.filter(r => r.propertyId !== id);
+                rentSchedules = rentSchedules.filter(r => r.propertyId !== id);
                 payments = payments.filter(p => p.propertyId !== id);
                 expenses = expenses.filter(e => e.propertyId !== id);
                 saveData();
@@ -1121,59 +1531,39 @@
 
         function renderProperties() {
             const container = document.getElementById('properties-list');
-            document.getElementById('property-count').textContent = properties.length;
 
             if (properties.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
-                        <div class="empty-state-icon">🏘️</div>
-                        <p>No properties added yet. Click "Add New Property" to get started!</p>
+                        <div class="empty-state-icon">🏢</div>
+                        <p>No properties yet. Click "Add Property" to add one!</p>
                     </div>
                 `;
                 return;
             }
 
-            container.innerHTML = `
-                <div class="properties-grid">
-                    ${properties.map(property => `
-                        <div class="property-card">
-                            <div class="property-header">
-                                <div class="property-info">
-                                    <div class="property-address">📍 ${property.address}</div>
-                                    ${property.unitNumber ? `
-                                        <div class="property-detail">
-                                            <strong>Unit:</strong> ${property.unitNumber}
-                                        </div>
-                                    ` : ''}
-                                    ${property.tenant ? `
-                                        <div class="property-detail">
-                                            <strong>Tenant:</strong> ${property.tenant}
-                                        </div>
-                                    ` : `
-                                        <div class="property-vacant">Vacant</div>
-                                    `}
-                                    ${property.monthlyRent ? `
-                                        <div class="property-detail">
-                                            <strong>Monthly Rent:</strong> $${parseFloat(property.monthlyRent).toFixed(2)}
-                                        </div>
-                                    ` : ''}
-                                </div>
-                                <div class="property-actions">
-                                    <button class="btn btn-small btn-edit" onclick="editProperty('${property.id}')">
-                                        ✏️ Edit
-                                    </button>
-                                    <button class="btn btn-small btn-delete" onclick="deleteProperty('${property.id}')">
-                                        🗑️ Delete
-                                    </button>
-                                </div>
-                            </div>
+            container.innerHTML = properties.map(property => `
+                <div class="card">
+                    <h3 style="margin-bottom: 15px; color: #2d3748;">📍 ${property.address}${property.unitNumber ? ' - ' + property.unitNumber : ''}</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                        <div>
+                            <strong style="color: #718096;">Type:</strong><br>
+                            ${property.propertyType}
                         </div>
-                    `).join('')}
+                        <div>
+                            <strong style="color: #718096;">Monthly Rent:</strong><br>
+                            $${parseFloat(property.monthlyRent).toFixed(2)}
+                        </div>
+                    </div>
+                    ${property.notes ? `<div style="color: #718096; margin-bottom: 15px;"><strong>Notes:</strong> ${property.notes}</div>` : ''}
+                    <button class="btn btn-small btn-delete" onclick="deleteProperty('${property.id}')">
+                        🗑️ Delete
+                    </button>
                 </div>
-            `;
+            `).join('');
         }
 
-        // Rent Management Functions
+        // Rent Schedule Functions
         function showRentForm() {
             document.getElementById('rent-form').style.display = 'block';
         }
@@ -1189,66 +1579,68 @@
             const newRent = {
                 id: Date.now().toString(),
                 propertyId: document.getElementById('rent-property').value,
+                tenantName: document.getElementById('rent-tenant-name').value,
                 amount: document.getElementById('rent-amount').value,
+                dueDay: document.getElementById('rent-due-day').value,
                 effectiveDate: document.getElementById('rent-effective-date').value
             };
 
-            rents.push(newRent);
+            rentSchedules.push(newRent);
             saveData();
             cancelRentForm();
         }
 
-        function deleteRent(id) {
-            if (confirm('Are you sure you want to delete this rent record?')) {
-                rents = rents.filter(r => r.id !== id);
+        function deleteRentSchedule(id) {
+            if (confirm('Are you sure you want to delete this rent schedule?')) {
+                rentSchedules = rentSchedules.filter(r => r.id !== id);
                 saveData();
             }
         }
 
-        function renderRents() {
+        function renderRentSchedules() {
             const container = document.getElementById('rent-list');
 
-            if (rents.length === 0) {
+            if (rentSchedules.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">💰</div>
-                        <p>No rent records yet. Click "Set/Update Rent" to add one!</p>
+                        <p>No rent schedules yet. Click "Add Rent Schedule" to add one!</p>
                     </div>
                 `;
                 return;
             }
 
-            const sortedRents = [...rents].sort((a, b) => new Date(b.effectiveDate) - new Date(a.effectiveDate));
-
-            container.innerHTML = `
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Property</th>
-                            <th>Amount</th>
-                            <th>Effective Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${sortedRents.map(rent => {
-                            const property = properties.find(p => p.id === rent.propertyId);
-                            return `
-                                <tr>
-                                    <td>${property ? property.address : 'Unknown Property'}</td>
-                                    <td>$${parseFloat(rent.amount).toFixed(2)}</td>
-                                    <td>${new Date(rent.effectiveDate).toLocaleDateString()}</td>
-                                    <td>
-                                        <button class="btn btn-small btn-delete" onclick="deleteRent('${rent.id}')">
-                                            🗑️ Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                            `;
-                        }).join('')}
-                    </tbody>
-                </table>
-            `;
+            container.innerHTML = rentSchedules.map(rent => {
+                const property = properties.find(p => p.id === rent.propertyId);
+                return `
+                    <div class="card">
+                        <h3 style="margin-bottom: 15px; color: #2d3748;">📍 ${property ? property.address : 'Unknown Property'}</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                            <div>
+                                <strong style="color: #718096;">Tenant:</strong><br>
+                                ${rent.tenantName}
+                            </div>
+                            <div>
+                                <strong style="color: #718096;">Monthly Amount:</strong><br>
+                                $${parseFloat(rent.amount).toFixed(2)}
+                            </div>
+                            <div>
+                                <strong style="color: #718096;">Due Day:</strong><br>
+                                ${rent.dueDay}${getDaySuffix(rent.dueDay)} of each month
+                            </div>
+                            <div>
+                                <strong style="color: #718096;">Effective Date:</strong><br>
+                                ${new Date(rent.effectiveDate).toLocaleDateString()}
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <button class="btn btn-small btn-delete" onclick="deleteRentSchedule('${rent.id}')">
+                                🗑️ Delete
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
         // Payment Functions
@@ -1278,7 +1670,7 @@
         }
 
         function deletePayment(id) {
-            if (confirm('Are you sure you want to delete this payment record?')) {
+            if (confirm('Are you sure you want to delete this payment?')) {
                 payments = payments.filter(p => p.id !== id);
                 saveData();
             }
@@ -1300,37 +1692,39 @@
             const sortedPayments = [...payments].sort((a, b) => new Date(b.date) - new Date(a.date));
 
             container.innerHTML = `
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Property</th>
-                            <th>Amount</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${sortedPayments.map(payment => {
-                            const property = properties.find(p => p.id === payment.propertyId);
-                            const statusClass = payment.status === 'confirmed' ? 'status-paid' : 
-                                              payment.status === 'pending' ? 'status-pending' : 'status-overdue';
-                            return `
-                                <tr>
-                                    <td>${property ? property.address : 'Unknown Property'}</td>
-                                    <td>$${parseFloat(payment.amount).toFixed(2)}</td>
-                                    <td>${new Date(payment.date).toLocaleDateString()}</td>
-                                    <td><span class="status-badge ${statusClass}">${payment.status.charAt(0).toUpperCase() + payment.status.slice(1)}</span></td>
-                                    <td>
-                                        <button class="btn btn-small btn-delete" onclick="deletePayment('${payment.id}')">
-                                            🗑️ Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                            `;
-                        }).join('')}
-                    </tbody>
-                </table>
+                <div class="card">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${sortedPayments.map(payment => {
+                                const property = properties.find(p => p.id === payment.propertyId);
+                                const statusClass = payment.status === 'confirmed' ? 'status-paid' : 
+                                                  payment.status === 'pending' ? 'status-pending' : 'status-overdue';
+                                return `
+                                    <tr>
+                                        <td>${property ? property.address : 'Unknown Property'}</td>
+                                        <td>$${parseFloat(payment.amount).toFixed(2)}</td>
+                                        <td>${new Date(payment.date).toLocaleDateString()}</td>
+                                        <td><span class="status-badge ${statusClass}">${payment.status.charAt(0).toUpperCase() + payment.status.slice(1)}</span></td>
+                                        <td>
+                                            <button class="btn btn-small btn-delete" onclick="deletePayment('${payment.id}')">
+                                                🗑️ Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                `;
+                            }).join('')}
+                        </tbody>
+                    </table>
+                </div>
             `;
         }
 
@@ -1384,43 +1778,44 @@
             const sortedExpenses = [...expenses].sort((a, b) => new Date(b.date) - new Date(a.date));
 
             container.innerHTML = `
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Property</th>
-                            <th>Category</th>
-                            <th>Amount</th>
-                            <th>Date</th>
-                            <th>Notes</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${sortedExpenses.map(expense => {
-                            const property = properties.find(p => p.id === expense.propertyId);
-                            return `
-                                <tr>
-                                    <td>${property ? property.address : 'Unknown Property'}</td>
-                                    <td>${expense.category}</td>
-                                    <td>$${parseFloat(expense.amount).toFixed(2)}</td>
-                                    <td>${new Date(expense.date).toLocaleDateString()}</td>
-                                    <td>${expense.notes || '-'}</td>
-                                    <td>
-                                        <button class="btn btn-small btn-delete" onclick="deleteExpense('${expense.id}')">
-                                            🗑️ Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                            `;
-                        }).join('')}
-                    </tbody>
-                </table>
+                <div class="card">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Category</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>Notes</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${sortedExpenses.map(expense => {
+                                const property = properties.find(p => p.id === expense.propertyId);
+                                return `
+                                    <tr>
+                                        <td>${property ? property.address : 'Unknown Property'}</td>
+                                        <td>${expense.category}</td>
+                                        <td>$${parseFloat(expense.amount).toFixed(2)}</td>
+                                        <td>${new Date(expense.date).toLocaleDateString()}</td>
+                                        <td>${expense.notes || '-'}</td>
+                                        <td>
+                                            <button class="btn btn-small btn-delete" onclick="deleteExpense('${expense.id}')">
+                                                🗑️ Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                `;
+                            }).join('')}
+                        </tbody>
+                    </table>
+                </div>
             `;
         }
 
         // Financial Overview Functions
         function renderFinancialOverview() {
-            // Calculate overall totals
             const totalRentCollected = payments
                 .filter(p => p.status === 'confirmed')
                 .reduce((sum, p) => sum + parseFloat(p.amount), 0);
@@ -1430,7 +1825,6 @@
             
             const netIncome = totalRentCollected - totalExpenses;
 
-            // Overall summary
             const overallContainer = document.getElementById('overall-financial-summary');
             overallContainer.innerHTML = `
                 <div class="financial-grid">
@@ -1449,7 +1843,6 @@
                 </div>
             `;
 
-            // Per-property summary
             const propertyContainer = document.getElementById('property-financial-summary');
             
             if (properties.length === 0) {
@@ -1503,6 +1896,7 @@
             ];
 
             dropdowns.forEach(dropdown => {
+                if (!dropdown) return;
                 const currentValue = dropdown.value;
                 dropdown.innerHTML = '<option value="">-- Select a Property --</option>' +
                     properties.map(p => 
@@ -1514,15 +1908,15 @@
 
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
-            loadData();
-            showPage('home');
+            initLogin();
             
             // Set today's date as default for date inputs
             const today = new Date().toISOString().split('T')[0];
-            document.getElementById('payment-date').value = today;
-            document.getElementById('expense-date').value = today;
-            document.getElementById('rent-effective-date').value = today;
-            document.getElementById('rentEffectiveDate').value = today;
+            const dateInputs = ['payment-date', 'expense-date', 'rent-effective-date'];
+            dateInputs.forEach(id => {
+                const input = document.getElementById(id);
+                if (input) input.value = today;
+            });
         });
     </script>
 </body>
