@@ -366,16 +366,16 @@
         <div class="nav-container">
             <div class="logo">🏠 Medal Homes</div>
             <div class="nav-links">
-                <button class="nav-btn" onclick="showPage('home')">
+                <button class="nav-btn" onclick="showPage('home', event)">
                     <span>🏠</span> Home
                 </button>
-                <button class="nav-btn" onclick="showPage('landlord')">
+                <button class="nav-btn" onclick="showPage('landlord', event)">
                     <span>👨‍💼</span> Landlord
                 </button>
-                <button class="nav-btn" onclick="showPage('buyer')">
+                <button class="nav-btn" onclick="showPage('buyer', event)">
                     <span>🔑</span> Buyer
                 </button>
-                <button class="nav-btn" onclick="showPage('all')">
+                <button class="nav-btn" onclick="showPage('all', event)">
                     <span>📋</span> All Pages
                 </button>
             </div>
@@ -394,14 +394,14 @@
                         <div class="feature-icon">👨‍💼</div>
                         <h3>Landlords</h3>
                         <p>Manage properties, track rent, and monitor expenses</p>
-                        <button class="btn" onclick="showPage('landlord')">Go to Dashboard</button>
+                        <button class="btn" onclick="showPage('landlord', event)">Go to Dashboard</button>
                     </div>
 
                     <div class="feature-card">
                         <div class="feature-icon">🔑</div>
                         <h3>Buyers</h3>
                         <p>Browse available properties and submit applications</p>
-                        <button class="btn btn-success" onclick="showPage('buyer')">Browse Properties</button>
+                        <button class="btn btn-success" onclick="showPage('buyer', event)">Browse Properties</button>
                     </div>
                 </div>
             </div>
@@ -511,7 +511,7 @@
                             <p>Welcome page and navigation hub</p>
                         </div>
                     </div>
-                    <button class="btn" onclick="showPage('home')">Visit Page</button>
+                    <button class="btn" onclick="showPage('home', event)">Visit Page</button>
                 </div>
 
                 <div class="page-item">
@@ -522,7 +522,7 @@
                             <p>Property management, rent tracking, and financial overview</p>
                         </div>
                     </div>
-                    <button class="btn" onclick="showPage('landlord')">Visit Page</button>
+                    <button class="btn" onclick="showPage('landlord', event)">Visit Page</button>
                 </div>
 
                 <div class="page-item">
@@ -533,7 +533,7 @@
                             <p>Browse properties and submit applications</p>
                         </div>
                     </div>
-                    <button class="btn btn-success" onclick="showPage('buyer')">Visit Page</button>
+                    <button class="btn btn-success" onclick="showPage('buyer', event)">Visit Page</button>
                 </div>
             </div>
         </div>
@@ -560,7 +560,7 @@
         }
 
         // Page navigation
-        function showPage(pageName) {
+        function showPage(pageName, event) {
             // Hide all pages
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
@@ -574,8 +574,20 @@
             // Show selected page
             document.getElementById(pageName + '-page').classList.add('active');
             
-            // Add active class to clicked button
-            event.target.closest('.nav-btn').classList.add('active');
+            // Add active class to clicked button (if event is provided)
+            if (event) {
+                const button = event.target.closest('.nav-btn');
+                if (button) {
+                    button.classList.add('active');
+                }
+            } else {
+                // If no event, find and activate the matching nav button
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    if (btn.textContent.toLowerCase().includes(pageName)) {
+                        btn.classList.add('active');
+                    }
+                });
+            }
         }
 
         // Show property form
