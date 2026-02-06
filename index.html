@@ -78,6 +78,38 @@
             color: white;
         }
 
+        /* Sub-navigation for Landlord tabs */
+        .sub-nav {
+            background: white;
+            border-radius: 8px;
+            padding: 5px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .sub-nav-btn {
+            background: transparent;
+            color: #2d3748;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .sub-nav-btn:hover {
+            background: #edf2f7;
+        }
+
+        .sub-nav-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
         /* Page Container */
         .page {
             display: none;
@@ -85,6 +117,14 @@
         }
 
         .page.active {
+            display: block;
+        }
+
+        .landlord-section {
+            display: none;
+        }
+
+        .landlord-section.active {
             display: block;
         }
 
@@ -160,9 +200,20 @@
             background: #48bb78;
         }
 
+        .btn-warning {
+            background: #f6ad55;
+            color: white;
+        }
+
         /* Forms */
         .form-group {
             margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
         }
 
         .form-label {
@@ -172,7 +223,7 @@
             color: #2d3748;
         }
 
-        .form-input {
+        .form-input, .form-select, .form-textarea {
             width: 100%;
             padding: 12px;
             border: 2px solid #e2e8f0;
@@ -180,9 +231,15 @@
             font-size: 1rem;
             outline: none;
             transition: border-color 0.2s;
+            font-family: inherit;
         }
 
-        .form-input:focus {
+        .form-textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
             border-color: #667eea;
         }
 
@@ -240,6 +297,7 @@
         .property-actions {
             display: flex;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
         .empty-state {
@@ -251,6 +309,89 @@
         .empty-state-icon {
             font-size: 3rem;
             margin-bottom: 15px;
+        }
+
+        /* Table styles */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .data-table th {
+            background: #f7fafc;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #2d3748;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .data-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .data-table tr:hover {
+            background: #f7fafc;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-paid {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .status-pending {
+            background: #feebc8;
+            color: #744210;
+        }
+
+        .status-overdue {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        /* Financial Overview */
+        .financial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .financial-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .financial-card h3 {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .financial-card .amount {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .financial-card.expenses {
+            background: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%);
+        }
+
+        .financial-card.income {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
         }
 
         /* Home Page */
@@ -357,6 +498,19 @@
                 flex-wrap: wrap;
                 justify-content: center;
             }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .property-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .property-actions button {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -412,66 +566,341 @@
     <div id="landlord-page" class="page">
         <div class="container">
             <div class="card">
-                <h1 class="card-title">🏠 Property Management</h1>
-                <p class="card-subtitle">Landlord Dashboard</p>
+                <h1 class="card-title">👨‍💼 Landlord Dashboard</h1>
+                <p class="card-subtitle">Manage your properties and finances</p>
             </div>
 
-            <button class="btn" id="add-property-btn" onclick="showPropertyForm()">
-                <span style="font-size: 1.2rem;">+</span> Add New Property
-            </button>
-
-            <!-- Property Form -->
-            <div class="card" id="property-form" style="display: none;">
-                <h2 style="margin: 0 0 25px; font-size: 1.5rem; color: #2d3748;" id="form-title">Add New Property</h2>
-                
-                <form id="property-form-element" onsubmit="handleSubmit(event)">
-                    <div class="form-group">
-                        <label class="form-label">Property Address *</label>
-                        <input 
-                            type="text" 
-                            class="form-input" 
-                            id="address" 
-                            name="address" 
-                            placeholder="123 Main Street, City, State ZIP" 
-                            required
-                        >
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Unit Number (Optional)</label>
-                        <input 
-                            type="text" 
-                            class="form-input" 
-                            id="unitNumber" 
-                            name="unitNumber" 
-                            placeholder="Apt 4B, Unit 102, etc."
-                        >
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Tenant Name</label>
-                        <input 
-                            type="text" 
-                            class="form-input" 
-                            id="tenant" 
-                            name="tenant" 
-                            placeholder="John Smith"
-                        >
-                    </div>
-
-                    <div class="form-actions">
-                        <button type="submit" class="btn" id="submit-btn">Save Property</button>
-                        <button type="button" class="btn btn-secondary" onclick="cancelForm()">Cancel</button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Properties List -->
+            <!-- Sub-navigation -->
             <div class="card">
-                <h2 style="margin: 0 0 25px; font-size: 1.5rem; color: #2d3748;">
-                    All Properties (<span id="property-count">0</span>)
-                </h2>
-                <div id="properties-list"></div>
+                <div class="sub-nav">
+                    <button class="sub-nav-btn active" onclick="showLandlordSection('properties', event)">
+                        🏠 Properties
+                    </button>
+                    <button class="sub-nav-btn" onclick="showLandlordSection('rent', event)">
+                        💰 Rent Management
+                    </button>
+                    <button class="sub-nav-btn" onclick="showLandlordSection('payments', event)">
+                        💳 Payments
+                    </button>
+                    <button class="sub-nav-btn" onclick="showLandlordSection('expenses', event)">
+                        📊 Expenses
+                    </button>
+                    <button class="sub-nav-btn" onclick="showLandlordSection('financial', event)">
+                        📈 Financial Overview
+                    </button>
+                </div>
+            </div>
+
+            <!-- Properties Section -->
+            <div id="properties-section" class="landlord-section active">
+                <button class="btn" id="add-property-btn" onclick="showPropertyForm()">
+                    <span style="font-size: 1.2rem;">+</span> Add New Property
+                </button>
+
+                <!-- Property Form -->
+                <div class="card" id="property-form" style="display: none;">
+                    <h2 style="margin: 0 0 25px; font-size: 1.5rem; color: #2d3748;" id="form-title">Add New Property</h2>
+                    
+                    <form id="property-form-element" onsubmit="handlePropertySubmit(event)">
+                        <div class="form-group">
+                            <label class="form-label">Property Address *</label>
+                            <input 
+                                type="text" 
+                                class="form-input" 
+                                id="address" 
+                                name="address" 
+                                placeholder="123 Main Street, City, State ZIP" 
+                                required
+                            >
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Unit Number (Optional)</label>
+                                <input 
+                                    type="text" 
+                                    class="form-input" 
+                                    id="unitNumber" 
+                                    name="unitNumber" 
+                                    placeholder="Apt 4B, Unit 102, etc."
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Tenant Name</label>
+                                <input 
+                                    type="text" 
+                                    class="form-input" 
+                                    id="tenant" 
+                                    name="tenant" 
+                                    placeholder="John Smith"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Monthly Rent ($)</label>
+                                <input 
+                                    type="number" 
+                                    class="form-input" 
+                                    id="monthlyRent" 
+                                    name="monthlyRent" 
+                                    placeholder="1500"
+                                    step="0.01"
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Rent Effective Date</label>
+                                <input 
+                                    type="date" 
+                                    class="form-input" 
+                                    id="rentEffectiveDate" 
+                                    name="rentEffectiveDate"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn" id="submit-btn">Save Property</button>
+                            <button type="button" class="btn btn-secondary" onclick="cancelPropertyForm()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Properties List -->
+                <div class="card">
+                    <h2 style="margin: 0 0 25px; font-size: 1.5rem; color: #2d3748;">
+                        All Properties (<span id="property-count">0</span>)
+                    </h2>
+                    <div id="properties-list"></div>
+                </div>
+            </div>
+
+            <!-- Rent Management Section -->
+            <div id="rent-section" class="landlord-section">
+                <button class="btn" onclick="showRentForm()">
+                    <span style="font-size: 1.2rem;">+</span> Set/Update Rent
+                </button>
+
+                <!-- Rent Form -->
+                <div class="card" id="rent-form" style="display: none;">
+                    <h2 style="margin: 0 0 25px; font-size: 1.5rem; color: #2d3748;">Set Monthly Rent</h2>
+                    
+                    <form id="rent-form-element" onsubmit="handleRentSubmit(event)">
+                        <div class="form-group">
+                            <label class="form-label">Select Property *</label>
+                            <select class="form-select" id="rent-property" required>
+                                <option value="">-- Select a Property --</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Monthly Rent Amount ($) *</label>
+                                <input 
+                                    type="number" 
+                                    class="form-input" 
+                                    id="rent-amount" 
+                                    placeholder="1500"
+                                    step="0.01"
+                                    required
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Effective Date *</label>
+                                <input 
+                                    type="date" 
+                                    class="form-input" 
+                                    id="rent-effective-date" 
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn">Save Rent</button>
+                            <button type="button" class="btn btn-secondary" onclick="cancelRentForm()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Rent History -->
+                <div class="card">
+                    <h2 style="margin: 0 0 25px; font-size: 1.5rem; color: #2d3748;">
+                        Rent History
+                    </h2>
+                    <div id="rent-list"></div>
+                </div>
+            </div>
+
+            <!-- Payments Section -->
+            <div id="payments-section" class="landlord-section">
+                <button class="btn" onclick="showPaymentForm()">
+                    <span style="font-size: 1.2rem;">+</span> Record Payment
+                </button>
+
+                <!-- Payment Form -->
+                <div class="card" id="payment-form" style="display: none;">
+                    <h2 style="margin: 0 0 25px; font-size: 1.5rem; color: #2d3748;">Record Rent Payment</h2>
+                    
+                    <form id="payment-form-element" onsubmit="handlePaymentSubmit(event)">
+                        <div class="form-group">
+                            <label class="form-label">Select Property *</label>
+                            <select class="form-select" id="payment-property" required>
+                                <option value="">-- Select a Property --</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Payment Amount ($) *</label>
+                                <input 
+                                    type="number" 
+                                    class="form-input" 
+                                    id="payment-amount" 
+                                    placeholder="1500"
+                                    step="0.01"
+                                    required
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Payment Date *</label>
+                                <input 
+                                    type="date" 
+                                    class="form-input" 
+                                    id="payment-date" 
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Payment Status *</label>
+                            <select class="form-select" id="payment-status" required>
+                                <option value="confirmed">Confirmed</option>
+                                <option value="pending">Pending</option>
+                                <option value="failed">Failed</option>
+                            </select>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn">Record Payment</button>
+                            <button type="button" class="btn btn-secondary" onclick="cancelPaymentForm()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Payments List -->
+                <div class="card">
+                    <h2 style="margin: 0 0 25px; font-size: 1.5rem; color: #2d3748;">
+                        Payment History
+                    </h2>
+                    <div id="payments-list"></div>
+                </div>
+            </div>
+
+            <!-- Expenses Section -->
+            <div id="expenses-section" class="landlord-section">
+                <button class="btn" onclick="showExpenseForm()">
+                    <span style="font-size: 1.2rem;">+</span> Add Expense
+                </button>
+
+                <!-- Expense Form -->
+                <div class="card" id="expense-form" style="display: none;">
+                    <h2 style="margin: 0 0 25px; font-size: 1.5rem; color: #2d3748;">Add Property Expense</h2>
+                    
+                    <form id="expense-form-element" onsubmit="handleExpenseSubmit(event)">
+                        <div class="form-group">
+                            <label class="form-label">Select Property *</label>
+                            <select class="form-select" id="expense-property" required>
+                                <option value="">-- Select a Property --</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Category *</label>
+                                <select class="form-select" id="expense-category" required>
+                                    <option value="">-- Select Category --</option>
+                                    <option value="Maintenance">Maintenance</option>
+                                    <option value="Repairs">Repairs</option>
+                                    <option value="Utilities">Utilities</option>
+                                    <option value="Property Tax">Property Tax</option>
+                                    <option value="Insurance">Insurance</option>
+                                    <option value="HOA Fees">HOA Fees</option>
+                                    <option value="Marketing">Marketing</option>
+                                    <option value="Legal">Legal</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Amount ($) *</label>
+                                <input 
+                                    type="number" 
+                                    class="form-input" 
+                                    id="expense-amount" 
+                                    placeholder="500"
+                                    step="0.01"
+                                    required
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Date *</label>
+                                <input 
+                                    type="date" 
+                                    class="form-input" 
+                                    id="expense-date" 
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Notes (Optional)</label>
+                            <textarea 
+                                class="form-textarea" 
+                                id="expense-notes" 
+                                placeholder="Additional details about this expense..."
+                            ></textarea>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn">Save Expense</button>
+                            <button type="button" class="btn btn-secondary" onclick="cancelExpenseForm()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Expenses List -->
+                <div class="card">
+                    <h2 style="margin: 0 0 25px; font-size: 1.5rem; color: #2d3748;">
+                        Expense History
+                    </h2>
+                    <div id="expenses-list"></div>
+                </div>
+            </div>
+
+            <!-- Financial Overview Section -->
+            <div id="financial-section" class="landlord-section">
+                <div class="card">
+                    <h2 style="margin: 0 0 25px; font-size: 1.5rem; color: #2d3748;">
+                        Overall Financial Summary
+                    </h2>
+                    <div id="overall-financial-summary"></div>
+                </div>
+
+                <div class="card">
+                    <h2 style="margin: 0 0 25px; font-size: 1.5rem; color: #2d3748;">
+                        Per-Property Financial Summary
+                    </h2>
+                    <div id="property-financial-summary"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -542,46 +971,63 @@
     <script>
         // State management
         let properties = [];
+        let rents = [];
+        let payments = [];
+        let expenses = [];
         let editingPropertyId = null;
 
-        // Load properties from localStorage
-        function loadProperties() {
-            const stored = localStorage.getItem('medal_homes_properties');
-            if (stored) {
-                properties = JSON.parse(stored);
-            }
-            renderProperties();
+        // Load all data from localStorage
+        function loadData() {
+            const storedProperties = localStorage.getItem('medal_homes_properties');
+            const storedRents = localStorage.getItem('medal_homes_rents');
+            const storedPayments = localStorage.getItem('medal_homes_payments');
+            const storedExpenses = localStorage.getItem('medal_homes_expenses');
+            
+            if (storedProperties) properties = JSON.parse(storedProperties);
+            if (storedRents) rents = JSON.parse(storedRents);
+            if (storedPayments) payments = JSON.parse(storedPayments);
+            if (storedExpenses) expenses = JSON.parse(storedExpenses);
+            
+            renderAll();
         }
 
-        // Save properties to localStorage
-        function saveProperties() {
+        // Save data to localStorage
+        function saveData() {
             localStorage.setItem('medal_homes_properties', JSON.stringify(properties));
+            localStorage.setItem('medal_homes_rents', JSON.stringify(rents));
+            localStorage.setItem('medal_homes_payments', JSON.stringify(payments));
+            localStorage.setItem('medal_homes_expenses', JSON.stringify(expenses));
+            renderAll();
+        }
+
+        // Render all views
+        function renderAll() {
             renderProperties();
+            renderRents();
+            renderPayments();
+            renderExpenses();
+            renderFinancialOverview();
+            updatePropertyDropdowns();
         }
 
         // Page navigation
         function showPage(pageName, event) {
-            // Hide all pages
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
             });
             
-            // Remove active class from all nav buttons
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             
-            // Show selected page
             document.getElementById(pageName + '-page').classList.add('active');
             
-            // Add active class to clicked button (if event is provided)
             if (event) {
                 const button = event.target.closest('.nav-btn');
                 if (button) {
                     button.classList.add('active');
                 }
             } else {
-                // If no event, find and activate the matching nav button
                 document.querySelectorAll('.nav-btn').forEach(btn => {
                     if (btn.textContent.toLowerCase().includes(pageName)) {
                         btn.classList.add('active');
@@ -590,14 +1036,30 @@
             }
         }
 
-        // Show property form
+        // Landlord section navigation
+        function showLandlordSection(sectionName, event) {
+            document.querySelectorAll('.landlord-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.sub-nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(sectionName + '-section').classList.add('active');
+            
+            if (event) {
+                event.target.classList.add('active');
+            }
+        }
+
+        // Property Management Functions
         function showPropertyForm() {
             document.getElementById('property-form').style.display = 'block';
             document.getElementById('add-property-btn').style.display = 'none';
         }
 
-        // Cancel form
-        function cancelForm() {
+        function cancelPropertyForm() {
             document.getElementById('property-form').style.display = 'none';
             document.getElementById('add-property-btn').style.display = 'inline-flex';
             document.getElementById('property-form-element').reset();
@@ -606,22 +1068,21 @@
             document.getElementById('submit-btn').textContent = 'Save Property';
         }
 
-        // Handle form submission
-        function handleSubmit(event) {
+        function handlePropertySubmit(event) {
             event.preventDefault();
             
             const formData = {
                 address: document.getElementById('address').value,
                 unitNumber: document.getElementById('unitNumber').value,
-                tenant: document.getElementById('tenant').value
+                tenant: document.getElementById('tenant').value,
+                monthlyRent: document.getElementById('monthlyRent').value,
+                rentEffectiveDate: document.getElementById('rentEffectiveDate').value
             };
 
             if (editingPropertyId) {
-                // Update existing property
                 const index = properties.findIndex(p => p.id === editingPropertyId);
                 properties[index] = { ...formData, id: editingPropertyId };
             } else {
-                // Create new property
                 const newProperty = {
                     ...formData,
                     id: Date.now().toString()
@@ -629,33 +1090,35 @@
                 properties.push(newProperty);
             }
 
-            saveProperties();
-            cancelForm();
+            saveData();
+            cancelPropertyForm();
         }
 
-        // Edit property
         function editProperty(id) {
             const property = properties.find(p => p.id === id);
             if (property) {
                 editingPropertyId = id;
                 document.getElementById('address').value = property.address;
-                document.getElementById('unitNumber').value = property.unitNumber;
-                document.getElementById('tenant').value = property.tenant;
+                document.getElementById('unitNumber').value = property.unitNumber || '';
+                document.getElementById('tenant').value = property.tenant || '';
+                document.getElementById('monthlyRent').value = property.monthlyRent || '';
+                document.getElementById('rentEffectiveDate').value = property.rentEffectiveDate || '';
                 document.getElementById('form-title').textContent = 'Edit Property';
                 document.getElementById('submit-btn').textContent = 'Update Property';
                 showPropertyForm();
             }
         }
 
-        // Delete property
         function deleteProperty(id) {
-            if (confirm('Are you sure you want to delete this property?')) {
+            if (confirm('Are you sure you want to delete this property? This will also delete all associated rent, payments, and expenses.')) {
                 properties = properties.filter(p => p.id !== id);
-                saveProperties();
+                rents = rents.filter(r => r.propertyId !== id);
+                payments = payments.filter(p => p.propertyId !== id);
+                expenses = expenses.filter(e => e.propertyId !== id);
+                saveData();
             }
         }
 
-        // Render properties list
         function renderProperties() {
             const container = document.getElementById('properties-list');
             document.getElementById('property-count').textContent = properties.length;
@@ -689,6 +1152,11 @@
                                     ` : `
                                         <div class="property-vacant">Vacant</div>
                                     `}
+                                    ${property.monthlyRent ? `
+                                        <div class="property-detail">
+                                            <strong>Monthly Rent:</strong> $${parseFloat(property.monthlyRent).toFixed(2)}
+                                        </div>
+                                    ` : ''}
                                 </div>
                                 <div class="property-actions">
                                     <button class="btn btn-small btn-edit" onclick="editProperty('${property.id}')">
@@ -705,10 +1173,356 @@
             `;
         }
 
+        // Rent Management Functions
+        function showRentForm() {
+            document.getElementById('rent-form').style.display = 'block';
+        }
+
+        function cancelRentForm() {
+            document.getElementById('rent-form').style.display = 'none';
+            document.getElementById('rent-form-element').reset();
+        }
+
+        function handleRentSubmit(event) {
+            event.preventDefault();
+            
+            const newRent = {
+                id: Date.now().toString(),
+                propertyId: document.getElementById('rent-property').value,
+                amount: document.getElementById('rent-amount').value,
+                effectiveDate: document.getElementById('rent-effective-date').value
+            };
+
+            rents.push(newRent);
+            saveData();
+            cancelRentForm();
+        }
+
+        function deleteRent(id) {
+            if (confirm('Are you sure you want to delete this rent record?')) {
+                rents = rents.filter(r => r.id !== id);
+                saveData();
+            }
+        }
+
+        function renderRents() {
+            const container = document.getElementById('rent-list');
+
+            if (rents.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">💰</div>
+                        <p>No rent records yet. Click "Set/Update Rent" to add one!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const sortedRents = [...rents].sort((a, b) => new Date(b.effectiveDate) - new Date(a.effectiveDate));
+
+            container.innerHTML = `
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Amount</th>
+                            <th>Effective Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${sortedRents.map(rent => {
+                            const property = properties.find(p => p.id === rent.propertyId);
+                            return `
+                                <tr>
+                                    <td>${property ? property.address : 'Unknown Property'}</td>
+                                    <td>$${parseFloat(rent.amount).toFixed(2)}</td>
+                                    <td>${new Date(rent.effectiveDate).toLocaleDateString()}</td>
+                                    <td>
+                                        <button class="btn btn-small btn-delete" onclick="deleteRent('${rent.id}')">
+                                            🗑️ Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            `;
+                        }).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        // Payment Functions
+        function showPaymentForm() {
+            document.getElementById('payment-form').style.display = 'block';
+        }
+
+        function cancelPaymentForm() {
+            document.getElementById('payment-form').style.display = 'none';
+            document.getElementById('payment-form-element').reset();
+        }
+
+        function handlePaymentSubmit(event) {
+            event.preventDefault();
+            
+            const newPayment = {
+                id: Date.now().toString(),
+                propertyId: document.getElementById('payment-property').value,
+                amount: document.getElementById('payment-amount').value,
+                date: document.getElementById('payment-date').value,
+                status: document.getElementById('payment-status').value
+            };
+
+            payments.push(newPayment);
+            saveData();
+            cancelPaymentForm();
+        }
+
+        function deletePayment(id) {
+            if (confirm('Are you sure you want to delete this payment record?')) {
+                payments = payments.filter(p => p.id !== id);
+                saveData();
+            }
+        }
+
+        function renderPayments() {
+            const container = document.getElementById('payments-list');
+
+            if (payments.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">💳</div>
+                        <p>No payments recorded yet. Click "Record Payment" to add one!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const sortedPayments = [...payments].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            container.innerHTML = `
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${sortedPayments.map(payment => {
+                            const property = properties.find(p => p.id === payment.propertyId);
+                            const statusClass = payment.status === 'confirmed' ? 'status-paid' : 
+                                              payment.status === 'pending' ? 'status-pending' : 'status-overdue';
+                            return `
+                                <tr>
+                                    <td>${property ? property.address : 'Unknown Property'}</td>
+                                    <td>$${parseFloat(payment.amount).toFixed(2)}</td>
+                                    <td>${new Date(payment.date).toLocaleDateString()}</td>
+                                    <td><span class="status-badge ${statusClass}">${payment.status.charAt(0).toUpperCase() + payment.status.slice(1)}</span></td>
+                                    <td>
+                                        <button class="btn btn-small btn-delete" onclick="deletePayment('${payment.id}')">
+                                            🗑️ Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            `;
+                        }).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        // Expense Functions
+        function showExpenseForm() {
+            document.getElementById('expense-form').style.display = 'block';
+        }
+
+        function cancelExpenseForm() {
+            document.getElementById('expense-form').style.display = 'none';
+            document.getElementById('expense-form-element').reset();
+        }
+
+        function handleExpenseSubmit(event) {
+            event.preventDefault();
+            
+            const newExpense = {
+                id: Date.now().toString(),
+                propertyId: document.getElementById('expense-property').value,
+                category: document.getElementById('expense-category').value,
+                amount: document.getElementById('expense-amount').value,
+                date: document.getElementById('expense-date').value,
+                notes: document.getElementById('expense-notes').value
+            };
+
+            expenses.push(newExpense);
+            saveData();
+            cancelExpenseForm();
+        }
+
+        function deleteExpense(id) {
+            if (confirm('Are you sure you want to delete this expense?')) {
+                expenses = expenses.filter(e => e.id !== id);
+                saveData();
+            }
+        }
+
+        function renderExpenses() {
+            const container = document.getElementById('expenses-list');
+
+            if (expenses.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📊</div>
+                        <p>No expenses recorded yet. Click "Add Expense" to add one!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const sortedExpenses = [...expenses].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            container.innerHTML = `
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Category</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Notes</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${sortedExpenses.map(expense => {
+                            const property = properties.find(p => p.id === expense.propertyId);
+                            return `
+                                <tr>
+                                    <td>${property ? property.address : 'Unknown Property'}</td>
+                                    <td>${expense.category}</td>
+                                    <td>$${parseFloat(expense.amount).toFixed(2)}</td>
+                                    <td>${new Date(expense.date).toLocaleDateString()}</td>
+                                    <td>${expense.notes || '-'}</td>
+                                    <td>
+                                        <button class="btn btn-small btn-delete" onclick="deleteExpense('${expense.id}')">
+                                            🗑️ Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            `;
+                        }).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        // Financial Overview Functions
+        function renderFinancialOverview() {
+            // Calculate overall totals
+            const totalRentCollected = payments
+                .filter(p => p.status === 'confirmed')
+                .reduce((sum, p) => sum + parseFloat(p.amount), 0);
+            
+            const totalExpenses = expenses
+                .reduce((sum, e) => sum + parseFloat(e.amount), 0);
+            
+            const netIncome = totalRentCollected - totalExpenses;
+
+            // Overall summary
+            const overallContainer = document.getElementById('overall-financial-summary');
+            overallContainer.innerHTML = `
+                <div class="financial-grid">
+                    <div class="financial-card">
+                        <h3>Total Rent Collected</h3>
+                        <div class="amount">$${totalRentCollected.toFixed(2)}</div>
+                    </div>
+                    <div class="financial-card expenses">
+                        <h3>Total Expenses</h3>
+                        <div class="amount">$${totalExpenses.toFixed(2)}</div>
+                    </div>
+                    <div class="financial-card income">
+                        <h3>Net Income</h3>
+                        <div class="amount">$${netIncome.toFixed(2)}</div>
+                    </div>
+                </div>
+            `;
+
+            // Per-property summary
+            const propertyContainer = document.getElementById('property-financial-summary');
+            
+            if (properties.length === 0) {
+                propertyContainer.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📈</div>
+                        <p>Add properties to see per-property financial summaries.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const propertySummaries = properties.map(property => {
+                const propertyPayments = payments.filter(p => p.propertyId === property.id && p.status === 'confirmed');
+                const propertyExpenses = expenses.filter(e => e.propertyId === property.id);
+                
+                const rentCollected = propertyPayments.reduce((sum, p) => sum + parseFloat(p.amount), 0);
+                const totalExpense = propertyExpenses.reduce((sum, e) => sum + parseFloat(e.amount), 0);
+                const netIncome = rentCollected - totalExpense;
+
+                return `
+                    <div class="card" style="margin-bottom: 20px;">
+                        <h3 style="margin-bottom: 15px; color: #2d3748;">📍 ${property.address}</h3>
+                        <div class="financial-grid">
+                            <div class="financial-card">
+                                <h3>Rent Collected</h3>
+                                <div class="amount">$${rentCollected.toFixed(2)}</div>
+                            </div>
+                            <div class="financial-card expenses">
+                                <h3>Total Expenses</h3>
+                                <div class="amount">$${totalExpense.toFixed(2)}</div>
+                            </div>
+                            <div class="financial-card income">
+                                <h3>Net Income</h3>
+                                <div class="amount">$${netIncome.toFixed(2)}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            propertyContainer.innerHTML = propertySummaries;
+        }
+
+        // Update property dropdowns
+        function updatePropertyDropdowns() {
+            const dropdowns = [
+                document.getElementById('rent-property'),
+                document.getElementById('payment-property'),
+                document.getElementById('expense-property')
+            ];
+
+            dropdowns.forEach(dropdown => {
+                const currentValue = dropdown.value;
+                dropdown.innerHTML = '<option value="">-- Select a Property --</option>' +
+                    properties.map(p => 
+                        `<option value="${p.id}">${p.address}${p.unitNumber ? ' - ' + p.unitNumber : ''}</option>`
+                    ).join('');
+                dropdown.value = currentValue;
+            });
+        }
+
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
-            loadProperties();
+            loadData();
             showPage('home');
+            
+            // Set today's date as default for date inputs
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('payment-date').value = today;
+            document.getElementById('expense-date').value = today;
+            document.getElementById('rent-effective-date').value = today;
+            document.getElementById('rentEffectiveDate').value = today;
         });
     </script>
 </body>
