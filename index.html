@@ -3,88 +3,338 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Ticket Purchase</title>
-    <script>
-        function calculateAmount(tickets) {
-            let amount = 0;
-            if (tickets <= 0) {
-                return 0;
-            }
-            if (tickets >= 20) {
-                amount = Math.floor(tickets / 10) * 1500 + (tickets % 10) * 85;
-            } else if (tickets >= 11) {
-                amount = 750 + (tickets - 10) * 85;
-            } else if (tickets >= 10) {
-                amount = 750;
-            } else {
-                amount = tickets * 85;
-            }
-            return amount;
+    <title>Medal Homes Inc. | Smart Property Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-
-        function handleSubmit() {
-            const name = document.getElementById("name").value;
-            const email = document.getElementById("email").value;
-            const phone = document.getElementById("phone").value;
-            const tickets = parseInt(document.getElementById("tickets").value);
-            const amount = calculateAmount(tickets);
-
-            if (!name || !email || !phone || !tickets || isNaN(tickets)) {
-                alert("Please fill out all fields and enter a valid number of tickets.");
-                return;
-            }
-
-            // Show the user how much they have to pay
-            alert(`Total amount for ${tickets} tickets is $${amount}`);
-
-            // Prepare data for sending
-            const data = {
-                name: name,
-                email: email,
-                phone: phone,
-                tickets: tickets,
-                amount: amount
-            };
-
-            // Post data to Google Sheets
-            fetch('https://script.google.com/macros/s/AKfycbxNtYVnjvNM-gj8M1yUfmFKJw7e0WhTPhRdSWJlJdo/dev', {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(result => {
-                if (result.result === "success") {
-                    alert("Your order has been saved successfully!");
-                } else {
-                    alert("There was an error saving your order.");
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert("Failed to submit your order.");
-            });
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
         }
-    </script>
+        
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 15px 35px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background: white;
+            color: #667eea;
+        }
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: #2d3748;
+        }
+        
+        .user-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .user-card {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-top: 4px solid #667eea;
+        }
+        
+        .user-card.tenant {
+            border-top-color: #48bb78;
+        }
+        
+        .user-card h2 {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .icon {
+            font-size: 1.8rem;
+        }
+        
+        .feature-list {
+            list-style: none;
+        }
+        
+        .feature-list li {
+            padding: 15px 0;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: start;
+            gap: 12px;
+        }
+        
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .checkmark {
+            color: #48bb78;
+            font-weight: bold;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        
+        .feature-title {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+        
+        .feature-desc {
+            color: #718096;
+            font-size: 0.95rem;
+        }
+        
+        .system-features {
+            background: #f7fafc;
+            padding: 60px 0;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-card h3 {
+            margin: 20px 0 15px;
+            color: #2d3748;
+            font-size: 1.3rem;
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            background: #2d3748;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .user-sections {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Buy Event Tickets</h1>
-    <form id="ticketForm" onsubmit="event.preventDefault(); handleSubmit();">
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" name="name"><br><br>
+    <div class="hero">
+        <h1>🏠 Medal Homes Inc.</h1>
+        <p>Modern Property Management Made Simple</p>
+        <div class="cta-buttons">
+            <a href="#landlord" class="btn btn-primary">Landlord Portal</a>
+            <a href="#tenant" class="btn btn-secondary">Tenant Portal</a>
+        </div>
+    </div>
 
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email"><br><br>
+    <div class="container">
+        <h2 class="section-title">Powerful Tools for Everyone</h2>
+        
+        <div class="user-sections">
+            <div class="user-card" id="landlord">
+                <h2><span class="icon">👨‍💼</span> For Landlords</h2>
+                <ul class="feature-list">
+                    <li>
+                        <span class="checkmark">✓</span>
+                        <div>
+                            <div class="feature-title">Property Management</div>
+                            <div class="feature-desc">Create, view, update, and delete property records with full address and tenant details</div>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="checkmark">✓</span>
+                        <div>
+                            <div class="feature-title">Rent Management</div>
+                            <div class="feature-desc">Define monthly rent amounts per property with historical tracking and effective dates</div>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="checkmark">✓</span>
+                        <div>
+                            <div class="feature-title">Payment Confirmation</div>
+                            <div class="feature-desc">Record and view tenant payments with date, amount, and status tracking</div>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="checkmark">✓</span>
+                        <div>
+                            <div class="feature-title">Expense Tracking</div>
+                            <div class="feature-desc">Input operating costs by category with dates and notes for comprehensive reporting</div>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="checkmark">✓</span>
+                        <div>
+                            <div class="feature-title">Financial Overview</div>
+                            <div class="feature-desc">View total rent collected, expenses, and net income summaries per property</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
 
-        <label for="phone">Phone Number:</label><br>
-        <input type="tel" id="phone" name="phone"><br><br>
+            <div class="user-card tenant" id="tenant">
+                <h2><span class="icon">👥</span> For Tenants</h2>
+                <ul class="feature-list">
+                    <li>
+                        <span class="checkmark">✓</span>
+                        <div>
+                            <div class="feature-title">Payment Confirmation</div>
+                            <div class="feature-desc">View confirmation of submitted rent payments with amount, date, and status</div>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="checkmark">✓</span>
+                        <div>
+                            <div class="feature-title">Rent Status Visibility</div>
+                            <div class="feature-desc">Check current rent status (paid, unpaid, overdue) and outstanding balances</div>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="checkmark">✓</span>
+                        <div>
+                            <div class="feature-title">Overdue Notifications</div>
+                            <div class="feature-desc">Automatic notices when payment deadlines are missed, displayed upon login</div>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="checkmark">✓</span>
+                        <div>
+                            <div class="feature-title">Payment History</div>
+                            <div class="feature-desc">Access complete history of past rent payments in a read-only format</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
-        <label for="tickets">Number of Tickets:</label><br>
-        <input type="number" id="tickets" name="tickets"><br><br>
+    <div class="system-features">
+        <div class="container">
+            <h2 class="section-title">Built on Trust & Security</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>Secure Authentication</h3>
+                    <p>Role-based access ensures landlords and tenants only see what they need</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✅</div>
+                    <h3>Data Integrity</h3>
+                    <p>Financial records are protected from unauthorized modifications</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💻</div>
+                    <h3>Web-Based Access</h3>
+                    <p>Simple, intuitive interface accessible from any device</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <button type="submit">Submit</button>
-    </form>
+    <div class="container" style="text-align: center; padding: 80px 20px;">
+        <h2 class="section-title">Ready to Get Started?</h2>
+        <p style="font-size: 1.2rem; margin-bottom: 30px; color: #718096;">Join Medal Homes and simplify your property management today</p>
+        <div class="cta-buttons">
+            <a href="#" class="btn btn-primary">Sign Up Now</a>
+            <a href="#" class="btn btn-secondary" style="background: #f7fafc; color: #667eea; border-color: #667eea;">Learn More</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Medal Homes Inc. | M900 Capstone Project</p>
+        <p style="margin-top: 10px; opacity: 0.8;">Streamlined Property Management for Modern Living</p>
+    </footer>
 </body>
 </html>
+</body>
+</html>
+
