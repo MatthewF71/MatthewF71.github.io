@@ -678,11 +678,17 @@
             </form>
 
             <div id="login-alert" class="alert"></div>
-
+            
             <div style="margin-top: 20px; text-align: center; color: #718096; font-size: 0.9rem;">
                 <p><strong>Demo Credentials:</strong></p>
-                <p>Landlord: landlord@example.com / password123</p>
-                <p>Tenant: tenant@example.com / password123</p>
+                <p><strong>Landlords</strong></p>
+                <p>landlord@example.com / password123</p>
+                <p>landlord2@example.com / password123</p>
+                <p>landlord3@example.com / password123</p>
+                <p style="margin-top: 10px;"><strong>Tenants</strong></p>
+                <p>tenant@example.com / password123</p>
+                <p>tenant2@example.com / password123</p>
+                <p>tenant3@example.com / password123</p>
             </div>
         </div>
     </div>
@@ -813,6 +819,14 @@
                                     <div class="form-group">
                                         <label class="form-label">Tenant Email (for tenant portal)</label>
                                         <input type="email" id="rent-tenant-email" class="form-input" placeholder="tenant@example.com">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Assign Tenant Account (optional)</label>
+                                        <select id="rent-tenant-user" class="form-select">
+                                            <option value="">-- Select Tenant Account --</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -974,6 +988,13 @@
         <!-- Tenant Pages -->
         <div id="tenant" class="page">
             <div class="container">
+                <!-- Assigned Properties -->
+                <div class="card">
+                    <h2 class="card-title">🏡 My Properties</h2>
+                    <p class="card-subtitle">Properties assigned to your account and their monthly rent</p>
+                </div>
+                <div id="tenant-properties"></div>
+
                 <!-- Overdue Notifications -->
                 <div id="overdue-notifications"></div>
 
@@ -1013,9 +1034,19 @@
 
         // Demo Users
         const users = {
-            'landlord@example.com': { password: 'password123', role: 'landlord', name: 'John Landlord' },
-            'tenant@example.com': { password: 'password123', role: 'tenant', name: 'Jane Tenant', propertyId: null }
+            'landlord@example.com':  { password: 'password123', role: 'landlord', name: 'John Landlord' },
+            'landlord2@example.com': { password: 'password123', role: 'landlord', name: 'Sarah Landlord' },
+            'landlord3@example.com': { password: 'password123', role: 'landlord', name: 'David Landlord' },
+            'tenant@example.com':    { password: 'password123', role: 'tenant', name: 'Jane Tenant' },
+            'tenant2@example.com':   { password: 'password123', role: 'tenant', name: 'Mark Tenant' },
+            'tenant3@example.com':   { password: 'password123', role: 'tenant', name: 'Emily Tenant' }
         };
+
+        function getTenantUsers() {
+            return Object.entries(users)
+                .filter(([email, user]) => user.role === 'tenant')
+                .map(([email, user]) => ({ email, name: user.name }));
+        }
 
         // Authentication Functions
         function initLogin() {
@@ -1108,6 +1139,7 @@
             
             // Load data
             loadData();
+            updateTenantAssignmentDropdown();
             
             // Show appropriate page
             if (currentRole === 'landlord') {
@@ -1227,6 +1259,7 @@
 
         // Tenant Dashboard Functions
         function renderTenantDashboard() {
+            renderTenantProperties();
             renderOverdueNotifications();
             renderTenantRentStatus();
             renderPaymentConfirmations();
@@ -1540,6 +1573,61 @@
             `;
         }
 
+        function renderTenantProperties() {
+            const container = document.getElementById('tenant-properties');
+
+            if (!currentUser) {
+                container.innerHTML = '';
+                return;
+            }
+
+            const email = currentUser.email.toLowerCase();
+            const tenantRentSchedules = rentSchedules.filter(rent => rent.tenantEmail && rent.tenantEmail.toLowerCase() === email);
+
+            if (tenantRentSchedules.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🏡</div>
+                        <p>No properties have been assigned to your account yet.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const byProperty = new Map();
+            tenantRentSchedules.forEach(rent => {
+                const key = rent.propertyId;
+                if (!byProperty.has(key)) {
+                    byProperty.set(key, rent);
+                }
+            });
+
+            const cards = Array.from(byProperty.values()).map(rent => {
+                const property = properties.find(p => p.id === rent.propertyId);
+                const rentAmount = parseFloat(rent.amount || 0);
+                return `
+                    <div class="rent-status-card">
+                        <div class="rent-status-header">
+                            <div>
+                                <div class="property-name">📍 ${property ? property.address : 'Unknown Property'}</div>
+                                <div style="color: #718096; margin-top: 5px;">
+                                    Due: ${rent.dueDay}${getDaySuffix(rent.dueDay)} of each month
+                                </div>
+                            </div>
+                            <div class="balance-info">
+                                <div class="balance-label">Monthly Rent</div>
+                                <div class="balance-amount unpaid">
+                                    $${rentAmount.toFixed(2)}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            container.innerHTML = cards;
+        }
+
         function getDaySuffix(day) {
             if (day >= 11 && day <= 13) return 'th';
             switch (day % 10) {
@@ -1579,6 +1667,8 @@
                 return;
             }
 
+            const landlordEmail = currentUser ? currentUser.email.toLowerCase() : null;
+
             const propertyData = {
                 address: document.getElementById('address').value,
                 unitNumber: document.getElementById('unitNumber').value,
@@ -1595,6 +1685,8 @@
             } else {
                 const newProperty = {
                     id: Date.now().toString(),
+                    ownerEmail: landlordEmail,
+                    ownerName: currentUser ? currentUser.name : null,
                     ...propertyData
                 };
                 properties.push(newProperty);
@@ -1620,8 +1712,12 @@
 
         function renderProperties() {
             const container = document.getElementById('properties-list');
+            const landlordEmail = currentUser ? currentUser.email.toLowerCase() : null;
+            const landlordProperties = landlordEmail
+                ? properties.filter(p => !p.ownerEmail || p.ownerEmail.toLowerCase() === landlordEmail)
+                : properties;
 
-            if (properties.length === 0) {
+            if (landlordProperties.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">🏢</div>
@@ -1631,7 +1727,7 @@
                 return;
             }
 
-            container.innerHTML = properties.map(property => {
+            container.innerHTML = landlordProperties.map(property => {
                 const relatedRents = rentSchedules.filter(r => r.propertyId === property.id);
                 const tenantNames = Array.from(new Set(relatedRents.map(r => r.tenantName).filter(Boolean)));
                 const tenantInfo = tenantNames.length > 0 ? tenantNames.join(', ') : 'No tenant associated';
@@ -1736,8 +1832,15 @@
 
         function renderRentSchedules() {
             const container = document.getElementById('rent-list');
+            const landlordEmail = currentUser ? currentUser.email.toLowerCase() : null;
+            const visibleRentSchedules = landlordEmail
+                ? rentSchedules.filter(rent => {
+                    const property = properties.find(p => p.id === rent.propertyId);
+                    return !property || !property.ownerEmail || property.ownerEmail.toLowerCase() === landlordEmail;
+                })
+                : rentSchedules;
 
-            if (rentSchedules.length === 0) {
+            if (visibleRentSchedules.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">💰</div>
@@ -1747,7 +1850,7 @@
                 return;
             }
 
-            container.innerHTML = rentSchedules.map(rent => {
+            container.innerHTML = visibleRentSchedules.map(rent => {
                 const property = properties.find(p => p.id === rent.propertyId);
                 return `
                     <div class="card">
@@ -1825,7 +1928,15 @@
         function renderPayments() {
             const container = document.getElementById('payments-list');
 
-            if (payments.length === 0) {
+            const landlordEmail = currentUser ? currentUser.email.toLowerCase() : null;
+            const visiblePayments = landlordEmail
+                ? payments.filter(payment => {
+                    const property = properties.find(p => p.id === payment.propertyId);
+                    return property && property.ownerEmail && property.ownerEmail.toLowerCase() === landlordEmail;
+                })
+                : payments;
+
+            if (visiblePayments.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">💳</div>
@@ -1835,7 +1946,7 @@
                 return;
             }
 
-            const sortedPayments = [...payments].sort((a, b) => new Date(b.date) - new Date(a.date));
+            const sortedPayments = [...visiblePayments].sort((a, b) => new Date(b.date) - new Date(a.date));
 
             container.innerHTML = `
                 <div class="card">
@@ -1924,7 +2035,15 @@
         function renderExpenses() {
             const container = document.getElementById('expenses-list');
 
-            if (expenses.length === 0) {
+            const landlordEmail = currentUser ? currentUser.email.toLowerCase() : null;
+            const visibleExpenses = landlordEmail
+                ? expenses.filter(expense => {
+                    const property = properties.find(p => p.id === expense.propertyId);
+                    return property && property.ownerEmail && property.ownerEmail.toLowerCase() === landlordEmail;
+                })
+                : expenses;
+
+            if (visibleExpenses.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">📊</div>
@@ -1934,7 +2053,7 @@
                 return;
             }
 
-            const sortedExpenses = [...expenses].sort((a, b) => new Date(b.date) - new Date(a.date));
+            const sortedExpenses = [...visibleExpenses].sort((a, b) => new Date(b.date) - new Date(a.date));
 
             container.innerHTML = `
                 <div class="card">
@@ -1975,11 +2094,18 @@
 
         // Financial Overview Functions
         function renderFinancialOverview() {
+            const landlordEmail = currentUser ? currentUser.email.toLowerCase() : null;
+            const landlordProperties = landlordEmail
+                ? properties.filter(p => p.ownerEmail && p.ownerEmail.toLowerCase() === landlordEmail)
+                : properties;
+            const landlordPropertyIds = new Set(landlordProperties.map(p => p.id));
+
             const totalRentCollected = payments
-                .filter(p => p.status === 'confirmed')
+                .filter(p => p.status === 'confirmed' && landlordPropertyIds.has(p.propertyId))
                 .reduce((sum, p) => sum + parseFloat(p.amount), 0);
             
             const totalExpenses = expenses
+                .filter(e => landlordPropertyIds.has(e.propertyId))
                 .reduce((sum, e) => sum + parseFloat(e.amount), 0);
             
             const netIncome = totalRentCollected - totalExpenses;
@@ -2004,7 +2130,7 @@
 
             const propertyContainer = document.getElementById('property-financial-summary');
             
-            if (properties.length === 0) {
+            if (landlordProperties.length === 0) {
                 propertyContainer.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">📈</div>
@@ -2014,7 +2140,7 @@
                 return;
             }
 
-            const propertySummaries = properties.map(property => {
+            const propertySummaries = landlordProperties.map(property => {
                 const propertyPayments = payments.filter(p => p.propertyId === property.id && p.status === 'confirmed');
                 const propertyExpenses = expenses.filter(e => e.propertyId === property.id);
                 
@@ -2057,17 +2183,51 @@
             dropdowns.forEach(dropdown => {
                 if (!dropdown) return;
                 const currentValue = dropdown.value;
+                const landlordEmail = currentUser ? currentUser.email.toLowerCase() : null;
+                const landlordProperties = landlordEmail
+                    ? properties.filter(p => !p.ownerEmail || p.ownerEmail.toLowerCase() === landlordEmail)
+                    : properties;
+
                 dropdown.innerHTML = '<option value="">-- Select a Property --</option>' +
-                    properties.map(p => 
+                    landlordProperties.map(p => 
                         `<option value="${p.id}">${p.address}${p.unitNumber ? ' - ' + p.unitNumber : ''}</option>`
                     ).join('');
                 dropdown.value = currentValue;
             });
         }
 
+        function updateTenantAssignmentDropdown() {
+            const tenantSelect = document.getElementById('rent-tenant-user');
+            if (!tenantSelect) return;
+
+            const tenants = getTenantUsers();
+            const currentValue = tenantSelect.value;
+
+            tenantSelect.innerHTML = '<option value="">-- Select Tenant Account --</option>' +
+                tenants.map(t => `<option value="${t.email}">${t.name} (${t.email})</option>`).join('');
+
+            if (tenants.some(t => t.email === currentValue)) {
+                tenantSelect.value = currentValue;
+            }
+        }
+
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             initLogin();
+
+            const tenantSelect = document.getElementById('rent-tenant-user');
+            if (tenantSelect) {
+                tenantSelect.addEventListener('change', function() {
+                    const selectedEmail = this.value;
+                    const user = users[selectedEmail];
+                    if (user) {
+                        const nameInput = document.getElementById('rent-tenant-name');
+                        const emailInput = document.getElementById('rent-tenant-email');
+                        if (nameInput) nameInput.value = user.name;
+                        if (emailInput) emailInput.value = selectedEmail;
+                    }
+                });
+            }
             
             // Set today's date as default for date inputs
             const today = new Date().toISOString().split('T')[0];
