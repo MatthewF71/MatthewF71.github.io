@@ -995,6 +995,38 @@
                 </div>
                 <div id="tenant-properties"></div>
 
+                <!-- Tenant Payment Submission -->
+                <div class="card">
+                    <h2 class="card-title">💳 Submit Rent Payment</h2>
+                    <p class="card-subtitle">Record a rent payment for your assigned properties (simulation only)</p>
+                    <form id="tenant-payment-form" onsubmit="handleTenantPaymentSubmit(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Property</label>
+                                <select id="tenant-payment-property" class="form-select" required>
+                                    <option value="">-- Select a Property --</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Amount ($)</label>
+                                <input type="number" id="tenant-payment-amount" class="form-input" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Payment Date</label>
+                                <input type="date" id="tenant-payment-date" class="form-input" required>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 10px; margin-top: 10px;">
+                            <button type="submit" class="btn btn-success">💾 Submit Payment (Simulated)</button>
+                        </div>
+                        <div style="margin-top: 10px; color: #718096; font-size: 0.85rem;">
+                            This does not process real money; it only records a payment in the system for testing purposes.
+                        </div>
+                    </form>
+                </div>
+
                 <!-- Overdue Notifications -->
                 <div id="overdue-notifications"></div>
 
@@ -1260,6 +1292,7 @@
         // Tenant Dashboard Functions
         function renderTenantDashboard() {
             renderTenantProperties();
+            renderTenantPaymentForm();
             renderOverdueNotifications();
             renderTenantRentStatus();
             renderPaymentConfirmations();
@@ -1571,6 +1604,108 @@
                     </div>
                 </div>
             `;
+        }
+
+        function renderTenantPaymentForm() {
+            const select = document.getElementById('tenant-payment-property');
+            const amountInput = document.getElementById('tenant-payment-amount');
+            const dateInput = document.getElementById('tenant-payment-date');
+
+            if (!select || !amountInput || !dateInput) return;
+
+            if (!currentUser || currentRole !== 'tenant') {
+                select.innerHTML = '<option value="">-- Select a Property --</option>';
+                select.disabled = true;
+                amountInput.value = '';
+                dateInput.value = '';
+                return;
+            }
+
+            const email = currentUser.email.toLowerCase();
+            const tenantRentSchedules = rentSchedules.filter(rent => rent.tenantEmail && rent.tenantEmail.toLowerCase() === email);
+
+            if (tenantRentSchedules.length === 0) {
+                select.innerHTML = '<option value="">No assigned properties</option>';
+                select.disabled = true;
+                amountInput.value = '';
+                dateInput.value = '';
+                return;
+            }
+
+            const byProperty = new Map();
+            tenantRentSchedules.forEach(rent => {
+                if (!byProperty.has(rent.propertyId)) {
+                    byProperty.set(rent.propertyId, rent);
+                }
+            });
+
+            select.disabled = false;
+            const optionsHtml = Array.from(byProperty.values()).map(rent => {
+                const property = properties.find(p => p.id === rent.propertyId);
+                const label = property ? property.address : 'Unknown Property';
+                return `<option value="${rent.propertyId}" data-amount="${rent.amount}">${label}</option>`;
+            }).join('');
+
+            select.innerHTML = '<option value="">-- Select a Property --</option>' + optionsHtml;
+
+            // Default date to today if not set
+            const today = new Date().toISOString().split('T')[0];
+            if (!dateInput.value) {
+                dateInput.value = today;
+            }
+
+            // Clear amount until user selects a property
+            amountInput.value = '';
+        }
+
+        function handleTenantPaymentSubmit(event) {
+            event.preventDefault();
+
+            if (!currentUser || currentRole !== 'tenant') {
+                alert('Only tenants can submit payments from this form.');
+                return;
+            }
+
+            const propertySelect = document.getElementById('tenant-payment-property');
+            const amountInput = document.getElementById('tenant-payment-amount');
+            const dateInput = document.getElementById('tenant-payment-date');
+
+            if (!propertySelect || !amountInput || !dateInput) return;
+
+            const propertyId = propertySelect.value;
+            const amount = amountInput.value;
+            const date = dateInput.value;
+
+            if (!propertyId) {
+                alert('Please select a property.');
+                return;
+            }
+
+            if (!amount || parseFloat(amount) <= 0) {
+                alert('Please enter a valid payment amount.');
+                return;
+            }
+
+            if (!date) {
+                alert('Please select a payment date.');
+                return;
+            }
+
+            const newPayment = {
+                id: Date.now().toString(),
+                propertyId: propertyId,
+                amount: amount,
+                date: date,
+                status: 'pending'
+            };
+
+            payments.push(newPayment);
+            saveData();
+
+            alert('Your payment has been recorded as pending. This is a simulated payment for testing purposes.');
+
+            // Keep property and date, clear amount so another payment can be entered
+            amountInput.value = '';
         }
 
         function renderTenantProperties() {
@@ -2225,6 +2360,23 @@
                         const emailInput = document.getElementById('rent-tenant-email');
                         if (nameInput) nameInput.value = user.name;
                         if (emailInput) emailInput.value = selectedEmail;
+                    }
+                });
+            }
+
+            const tenantPaymentPropertySelect = document.getElementById('tenant-payment-property');
+            if (tenantPaymentPropertySelect) {
+                tenantPaymentPropertySelect.addEventListener('change', function() {
+                    const selectedOption = this.options[this.selectedIndex];
+                    const defaultAmount = selectedOption ? selectedOption.getAttribute('data-amount') : null;
+                    const amountInput = document.getElementById('tenant-payment-amount');
+                    if (amountInput) {
+                        if (defaultAmount) {
+                            const parsed = parseFloat(defaultAmount);
+                            amountInput.value = isNaN(parsed) ? '' : parsed.toFixed(2);
+                        } else {
+                            amountInput.value = '';
+                        }
                     }
                 });
             }
